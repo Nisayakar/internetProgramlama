@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="jakarta.faces.html"
+      xmlns:f="jakarta.faces.core"
+      xmlns:ui="jakarta.faces.facelets"
+      lang="tr">
+<ui:composition template="/template.xhtml">
+    <ui:param name="activePage" value="cart"/>
+    <ui:define name="title">CleanMarket - Sepetim</ui:define>
+    <ui:define name="content">
+        <main class="mx-auto max-w-5xl px-4 py-8 sm:px-6 lg:px-8">
+            <section class="mb-6 rounded-lg border border-slate-200 bg-white p-6 shadow-sm">
+                <span class="text-sm font-bold uppercase tracking-wide text-teal-700">Alışveriş sepeti</span>
+                <div class="mt-2 flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
+                    <div>
+                        <h1 class="text-3xl font-black text-slate-950">Sepetim</h1>
+                        <p class="mt-2 text-slate-500">Ürünlerinizi kontrol edin, miktarları düzenleyin ve siparişinizi tamamlayın.</p>
+                    </div>
+                    <span class="w-fit rounded-full bg-slate-100 px-4 py-2 text-sm font-bold text-slate-600">#{sepetBean.sepetUrunSayisi} ürün</span>
+                </div>
+            </section>
+
+            <section class="rounded-lg border border-slate-200 bg-white p-5 shadow-sm">
+                <h:panelGroup rendered="#{not empty sepetBean.mesaj}" layout="block" styleClass="mb-4 rounded-lg border border-slate-200 bg-slate-50 px-4 py-3 text-sm font-semibold text-slate-700">
+                    #{sepetBean.mesaj}
+                </h:panelGroup>
+                <h:panelGroup rendered="#{not empty siparisBean.mesaj}" layout="block" styleClass="mb-4 rounded-lg border border-emerald-200 bg-emerald-50 px-4 py-3 text-sm font-semibold text-emerald-700">
+                    #{siparisBean.mesaj}
+                </h:panelGroup>
+
+                <h:panelGroup rendered="#{sepetBean.sepetBos}" layout="block" styleClass="rounded-lg border border-dashed border-slate-300 px-4 py-12 text-center text-sm font-semibold text-slate-500">
+                    Sepetiniz boş.
+                </h:panelGroup>
+
+                <h:form rendered="#{not sepetBean.sepetBos}" styleClass="space-y-4">
+                    <ui:repeat value="#{sepetBean.sepet.elemanlar}" var="eleman">
+                        <div class="grid gap-4 rounded-lg border border-slate-200 p-4 sm:grid-cols-[1fr_auto] sm:items-center">
+                            <div>
+                                <div class="text-lg font-black text-slate-900">#{eleman.urun.ad}</div>
+                                <div class="mt-1 text-sm text-slate-500">Ara toplam: #{eleman.araToplam} TL</div>
+                            </div>
+                            <div class="flex items-center gap-2">
+                                <h:commandButton action="#{sepetBean.miktarAzalt(eleman)}" value="-" styleClass="h-10 w-10 rounded-lg border border-slate-300 font-black text-slate-700 hover:bg-slate-100"/>
+                                <span class="grid h-10 min-w-12 place-items-center rounded-lg bg-slate-100 px-3 text-sm font-black">#{eleman.miktar}</span>
+                                <h:commandButton action="#{sepetBean.sepeteEkle(eleman.urun.id)}" value="+" styleClass="h-10 w-10 rounded-lg border border-slate-300 font-black text-slate-700 hover:bg-slate-100"/>
+                                <h:commandButton action="#{sepetBean.cikar(eleman)}" value="Sil" styleClass="rounded-lg border border-rose-200 px-4 py-2 text-sm font-bold text-rose-700 hover:bg-rose-50"/>
+                            </div>
+                        </div>
+                    </ui:repeat>
+
+                    <div class="mt-6 rounded-lg bg-slate-50 p-5">
+                        <div class="flex items-center justify-between text-xl font-black text-slate-950">
+                            <span>Toplam</span>
+                            <span>#{sepetBean.sepet.toplamTutar} TL</span>
+                        </div>
+                        <div class="mt-4 grid gap-3 sm:grid-cols-[1fr_auto]">
+                            <h:link outcome="/index.xhtml" value="Alışverişe Devam Et" styleClass="rounded-lg border border-slate-300 px-5 py-3 text-center font-bold text-slate-700 hover:bg-white"/>
+                            <h:commandButton action="#{siparisBean.siparisiTamamla()}"
+                                             value="Siparişi Tamamla"
+                                             styleClass="rounded-lg bg-teal-700 px-6 py-3 font-bold text-white hover:bg-teal-800"/>
+                        </div>
+                    </div>
+                </h:form>
+            </section>
+        </main>
+    </ui:define>
+</ui:composition>
+</html>

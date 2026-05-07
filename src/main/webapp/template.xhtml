@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="jakarta.faces.html"
+      xmlns:f="jakarta.faces.core"
+      xmlns:ui="jakarta.faces.facelets"
+      lang="tr">
+<h:head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title><ui:insert name="title">CleanMarket</ui:insert></title>
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet"/>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#0f766e',
+                        ink: '#111827',
+                        soft: '#f8fafc'
+                    }
+                }
+            }
+        }
+    </script>
+</h:head>
+<h:body styleClass="min-h-screen bg-slate-50 text-slate-900 antialiased flex flex-col">
+    <header class="sticky top-0 z-40 border-b border-slate-200 bg-white/90 backdrop-blur">
+        <nav class="mx-auto flex max-w-7xl flex-wrap items-center justify-between gap-3 px-4 py-4 sm:px-6 lg:px-8">
+            <h:link outcome="/index.xhtml" styleClass="flex items-center gap-3 text-lg font-black tracking-tight text-slate-950">
+                <span class="grid h-10 w-10 place-items-center rounded-lg bg-teal-700 text-sm font-black text-white">CM</span>
+                <span>CleanMarket</span>
+            </h:link>
+
+            <div class="flex flex-wrap items-center justify-end gap-2 text-sm font-semibold">
+                <h:link outcome="/index.xhtml"
+                        value="Mağaza"
+                        styleClass="#{activePage eq 'store' ? 'rounded-lg bg-slate-950 px-3 py-2 text-white' : 'rounded-lg px-3 py-2 text-slate-600 hover:bg-slate-100 hover:text-slate-950'}"/>
+                <h:link outcome="/app/siparisler.xhtml"
+                        value="Siparişlerim"
+                        rendered="#{sessionBean.girisYapmis}"
+                        styleClass="#{activePage eq 'myOrders' ? 'rounded-lg bg-slate-950 px-3 py-2 text-white' : 'rounded-lg px-3 py-2 text-slate-600 hover:bg-slate-100 hover:text-slate-950'}"/>
+                <h:link outcome="/app/sepet.xhtml"
+                        rendered="#{sessionBean.girisYapmis}"
+                        styleClass="#{activePage eq 'cart' ? 'ring-2 ring-teal-600 ring-offset-2' : 'hover:scale-105'} relative flex items-center justify-center w-12 h-12 bg-white/90 backdrop-blur-md shadow-lg rounded-full transition-transform duration-300">
+                    <span class="material-symbols-outlined text-primary text-[28px]">shopping_cart</span>
+                    <span class="absolute -top-1 -right-1 bg-teal-600 text-white text-xs font-bold w-6 h-6 flex items-center justify-center rounded-full shadow-md border-2 border-white">
+                        #{sepetBean.sepetUrunSayisi}
+                    </span>
+                </h:link>
+                <h:link outcome="/panel/products.xhtml"
+                        value="Yönetim"
+                        rendered="#{sessionBean.admin}"
+                        styleClass="#{activePage eq 'products' or activePage eq 'categories' or activePage eq 'users' or activePage eq 'orders' ? 'rounded-lg bg-teal-700 px-3 py-2 text-white' : 'rounded-lg px-3 py-2 text-slate-600 hover:bg-slate-100 hover:text-slate-950'}"/>
+                <h:link outcome="/login.xhtml"
+                        value="Giriş Yap"
+                        rendered="#{not sessionBean.girisYapmis}"
+                        styleClass="rounded-lg bg-teal-700 px-4 py-2 text-white shadow-sm shadow-teal-900/10 hover:bg-teal-800"/>
+                <h:form rendered="#{sessionBean.girisYapmis}">
+                    <h:commandButton action="#{kullaniciBean.cikisYap()}"
+                                     value="Çıkış"
+                                     styleClass="rounded-lg border border-rose-200 px-3 py-2 text-sm font-semibold text-rose-700 hover:bg-rose-50"/>
+                </h:form>
+            </div>
+        </nav>
+    </header>
+
+    <div class="flex-1">
+        <ui:insert name="content"/>
+    </div>
+
+    <footer class="mt-auto border-t border-slate-200 bg-white">
+        <div class="mx-auto flex max-w-7xl flex-col gap-3 px-4 py-8 text-sm text-slate-500 sm:px-6 md:flex-row md:items-center md:justify-between lg:px-8">
+            <span>© 2026 CleanMarket. Tüm hakları saklıdır.</span>
+            <span>Temiz alışveriş, düzenli operasyon.</span>
+        </div>
+    </footer>
+</h:body>
+</html>

@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="jakarta.faces.html"
+      xmlns:f="jakarta.faces.core"
+      xmlns:ui="jakarta.faces.facelets"
+      lang="tr">
+<ui:composition template="/template.xhtml">
+    <f:metadata>
+        <f:viewParam name="id" value="#{urunBean.detayUrunId}"/>
+        <f:viewAction action="#{urunBean.detayUrunYukle}"/>
+    </f:metadata>
+
+    <ui:param name="activePage" value="store"/>
+    <ui:define name="title">CleanMarket - Ürün Detayı</ui:define>
+    <ui:define name="content">
+        <main class="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
+            <h:panelGroup rendered="#{empty urunBean.detayUrun}" layout="block" styleClass="rounded-lg border border-amber-200 bg-amber-50 px-5 py-4 text-sm font-semibold text-amber-800">
+                Ürün bulunamadı.
+            </h:panelGroup>
+
+            <h:panelGroup rendered="#{not empty urunBean.detayUrun}" layout="block">
+                <h:link outcome="/index.xhtml" value="Mağazaya dön" styleClass="mb-5 inline-flex rounded-lg border border-slate-200 bg-white px-4 py-2 text-sm font-bold text-slate-700 hover:bg-slate-50"/>
+
+                <section class="grid gap-8 rounded-2xl border border-slate-200 bg-white p-6 shadow-sm lg:grid-cols-[minmax(0,0.95fr)_minmax(0,1.05fr)] lg:p-8">
+                    <div class="rounded-2xl bg-white p-4">
+                        <div class="flex min-h-[440px] items-center justify-center rounded-xl bg-slate-50 p-6">
+                            <ui:fragment rendered="#{not empty urunBean.detayUrun.gorselUrl}">
+                                <img src="#{request.contextPath}#{urunBean.detayUrun.gorselUrl}"
+                                     alt="#{urunBean.detayUrun.ad}"
+                                     class="max-h-[520px] w-full object-contain"
+                                     onerror="this.onerror=null; this.parentElement.innerHTML='&lt;span class=&quot;material-symbols-outlined text-5xl text-slate-400&quot;&gt;image_not_supported&lt;/span&gt;';"/>
+                            </ui:fragment>
+                            <ui:fragment rendered="#{empty urunBean.detayUrun.gorselUrl}">
+                                <span class="material-symbols-outlined text-5xl text-slate-400">image</span>
+                            </ui:fragment>
+                        </div>
+                    </div>
+
+                    <div class="flex flex-col">
+                        <span class="mb-3 w-fit rounded-full bg-teal-50 px-3 py-1 text-xs font-black uppercase tracking-wide text-teal-700">#{urunBean.detayUrun.kategori.ad}</span>
+                        <h1 class="text-3xl font-black leading-tight text-slate-950 lg:text-4xl">#{urunBean.detayUrun.ad}</h1>
+                        <p class="mt-4 text-base leading-8 text-slate-600">#{urunBean.detayUrun.aciklama}</p>
+
+                        <div class="my-6 grid gap-3 sm:grid-cols-2">
+                            <div class="rounded-lg bg-slate-50 p-4">
+                                <span class="block text-xs font-bold uppercase tracking-wide text-slate-500">Fiyat</span>
+                                <strong class="mt-2 block text-3xl font-black text-teal-700">#{urunBean.detayUrun.guncelFiyat} TL</strong>
+                            </div>
+                            <div class="rounded-lg bg-slate-50 p-4">
+                                <span class="block text-xs font-bold uppercase tracking-wide text-slate-500">Stok</span>
+                                <strong class="mt-2 block text-3xl font-black text-slate-950">#{urunBean.detayUrun.stokAdedi}</strong>
+                            </div>
+                        </div>
+
+                        <div class="mt-auto rounded-xl border border-slate-200 bg-slate-50 p-4">
+                            <h:form>
+                                <h:commandButton action="#{sepetBean.sepeteEkle(urunBean.detayUrun.id)}"
+                                                 value="Sepete Ekle"
+                                                 styleClass="w-full rounded-lg bg-teal-700 px-6 py-4 text-base font-bold text-white hover:bg-teal-800"/>
+                            </h:form>
+                            <div class="mt-3 text-center">
+                                <h:link outcome="/app/sepet.xhtml" value="Sepete Git" styleClass="text-sm font-bold text-teal-700 hover:text-teal-900"/>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </h:panelGroup>
+        </main>
+    </ui:define>
+</ui:composition>
+</html>

@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="jakarta.faces.html"
+      xmlns:f="jakarta.faces.core"
+      xmlns:ui="jakarta.faces.facelets"
+      lang="tr">
+<ui:composition template="/template.xhtml">
+    <ui:param name="activePage" value="store"/>
+    <ui:define name="title">CleanMarket - Mağaza</ui:define>
+    <ui:define name="content">
+        <main class="mx-auto max-w-screen-2xl px-4 py-8 sm:px-6 lg:px-8">
+            <section class="relative overflow-hidden rounded-xl border border-slate-200 bg-white shadow-sm">
+                <img src="#{request.contextPath}/resources/images/NİSAEkran görüntüsü 2026-05-02 222643.png"
+                     alt="Organik ürünler ve tarım alanı"
+                     class="absolute inset-0 w-full h-full object-cover object-center z-0"/>
+                <div class="absolute inset-0 bg-gradient-to-r from-white via-white/80 to-transparent w-full md:w-3/4 z-10"></div>
+                <div class="relative grid min-h-[300px] gap-6 p-7 md:grid-cols-[1fr_auto] md:items-center lg:p-10">
+                    <div class="relative z-20 flex flex-col justify-center h-full p-8 md:p-16 max-w-2xl">
+                        <span class="text-sm font-bold uppercase tracking-wide text-teal-700">Çevrim içi market</span>
+                        <h1 class="mt-2 max-w-2xl text-4xl font-black tracking-tight text-slate-950">Taze, düzenli ve hızlı alışveriş.</h1>
+                        <p class="mt-3 max-w-2xl text-slate-700">Seçilmiş ürünleri kategoriye göre inceleyin, sepetinizi anında yönetin ve siparişinizi tamamlayın.</p>
+                    </div>
+                </div>
+            </section>
+
+            <div class="mt-8 grid gap-6 lg:grid-cols-[240px_minmax(0,1fr)]">
+                <aside class="lg:sticky lg:top-24 lg:self-start">
+                    <section class="rounded-lg border border-slate-200 bg-white p-4 shadow-sm">
+                        <h2 class="mb-4 text-sm font-black uppercase tracking-wide text-slate-500">Kategoriler</h2>
+                        <h:form styleClass="space-y-2">
+                            <h:commandLink action="#{urunBean.tumKategorileriGoster()}"
+                                           value="Tüm Ürünler"
+                                           styleClass="#{empty urunBean.seciliVitrinKategoriId ? 'block rounded-lg bg-teal-700 px-4 py-3 text-sm font-bold text-white' : 'block rounded-lg px-4 py-3 text-sm font-bold text-slate-700 hover:bg-slate-100'}"/>
+                            <ui:repeat value="#{kategoriBean.tumKategoriler}" var="kat">
+                                <h:commandLink action="#{urunBean.kategoriSec(kat.id)}"
+                                               value="#{kat.ad}"
+                                               styleClass="#{urunBean.seciliVitrinKategoriId eq kat.id ? 'block rounded-lg bg-teal-700 px-4 py-3 text-sm font-bold text-white' : 'block rounded-lg px-4 py-3 text-sm font-bold text-slate-700 hover:bg-slate-100'}"/>
+                            </ui:repeat>
+                        </h:form>
+                    </section>
+                </aside>
+
+                <section>
+                    <h:panelGroup rendered="#{empty urunBean.vitrinUrunleri}"
+                                  layout="block"
+                                  styleClass="rounded-lg border border-sky-200 bg-sky-50 px-5 py-4 text-sm font-semibold text-sky-800">
+                        Bu kategoride ürün bulunamadı.
+                    </h:panelGroup>
+
+                    <div class="grid grid-cols-1 gap-6 w-full md:grid-cols-2 xl:grid-cols-3">
+                        <ui:repeat value="#{urunBean.vitrinUrunleri}" var="urun">
+                            <div class="flex flex-col bg-white rounded-2xl border border-slate-200 overflow-hidden hover:shadow-xl transition-shadow duration-300 h-full w-full min-w-0">
+                                <h:link outcome="/urun.xhtml" styleClass="block">
+                                    <f:param name="id" value="#{urun.id}"/>
+                                    <div class="relative w-full h-72 bg-white overflow-hidden shrink-0 flex items-center justify-center p-4">
+                                        <ui:fragment rendered="#{not empty urun.gorselUrl}">
+                                            <img src="#{request.contextPath}#{urun.gorselUrl}"
+                                                 alt="#{urun.ad}"
+                                                 class="w-full h-full object-contain"
+                                                 onerror="this.onerror=null; this.parentElement.innerHTML='&lt;span class=&quot;material-symbols-outlined text-4xl text-slate-400&quot;&gt;image_not_supported&lt;/span&gt;';"/>
+                                        </ui:fragment>
+                                        <ui:fragment rendered="#{empty urun.gorselUrl}">
+                                            <span class="material-symbols-outlined text-4xl text-slate-400">image</span>
+                                        </ui:fragment>
+                                    </div>
+                                </h:link>
+
+                                <div class="p-5 flex flex-col flex-1 gap-3">
+                                    <h:link outcome="/urun.xhtml" styleClass="block hover:text-teal-700">
+                                        <f:param name="id" value="#{urun.id}"/>
+                                        <h3 class="font-h3 text-xl text-slate-950 line-clamp-2" title="#{urun.ad}">#{urun.ad}</h3>
+                                    </h:link>
+                                    <h:link outcome="/urun.xhtml" styleClass="block">
+                                        <f:param name="id" value="#{urun.id}"/>
+                                        <p class="font-body-md text-sm text-slate-500 line-clamp-2">#{urun.aciklama}</p>
+                                    </h:link>
+
+                                    <div class="mt-auto pt-4 flex items-center justify-between">
+                                        <div>
+                                            <span class="block text-xs text-slate-500 font-label-sm">FİYAT</span>
+                                            <span class="font-h3 text-2xl text-teal-700">#{urun.guncelFiyat} TL</span>
+                                        </div>
+                                        <span class="bg-slate-100 text-slate-600 px-2 py-1 rounded-md text-xs font-label-sm">Stok: #{urun.stokAdedi}</span>
+                                    </div>
+
+                                    <h:form>
+                                        <h:commandButton action="#{sepetBean.sepeteEkle(urun.id)}"
+                                                         value="Sepete Ekle"
+                                                         styleClass="w-full mt-3 bg-teal-700 text-white py-3 rounded-lg font-label-sm hover:bg-teal-800 transition-colors"/>
+                                    </h:form>
+                                </div>
+                            </div>
+                        </ui:repeat>
+                    </div>
+                </section>
+
+            </div>
+        </main>
+    </ui:define>
+</ui:composition>
+</html>
