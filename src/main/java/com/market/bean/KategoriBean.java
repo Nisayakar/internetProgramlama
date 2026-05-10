@@ -2,6 +2,7 @@ package com.market.bean;
 
 import com.market.entity.Kategori;
 import com.market.facadeLocal.KategoriFacadeLocal; // Arayüz eklendi
+import jakarta.ejb.EJB;
 import jakarta.enterprise.context.SessionScoped;
 import jakarta.inject.Inject;
 import jakarta.inject.Named;
@@ -14,7 +15,7 @@ public class KategoriBean implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    @Inject
+    @EJB
     private KategoriFacadeLocal kategoriFacade; 
 
     private Kategori yeniKategori = new Kategori();

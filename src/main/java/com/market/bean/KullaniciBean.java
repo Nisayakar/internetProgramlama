@@ -3,6 +3,7 @@ package com.market.bean;
 import com.market.entity.Kullanici;
 import com.market.enums.Rol;
 import com.market.facadeLocal.KullaniciFacadeLocal; // Arayüz eklendi
+import jakarta.ejb.EJB;
 import jakarta.enterprise.context.SessionScoped;
 import jakarta.inject.Inject;
 import jakarta.inject.Named;
@@ -15,7 +16,7 @@ public class KullaniciBean implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    @Inject
+    @EJB
     private KullaniciFacadeLocal kullaniciFacade; 
 
     @Inject

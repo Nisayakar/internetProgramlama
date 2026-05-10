@@ -3,6 +3,7 @@ package com.market.bean;
 import com.market.entity.Siparis;
 import com.market.enums.SiparisDurum;
 import com.market.facadeLocal.SiparisFacadeLocal;
+import jakarta.ejb.EJB;
 import jakarta.enterprise.context.RequestScoped;
 import jakarta.inject.Inject;
 import jakarta.inject.Named;
@@ -20,7 +21,7 @@ public class SiparisBean {
     @Inject
     private SepetBean sepetBean;
 
-    @Inject
+    @EJB
     private SiparisFacadeLocal siparisFacade;
 
     private List<Siparis> gecmisSiparislerim;

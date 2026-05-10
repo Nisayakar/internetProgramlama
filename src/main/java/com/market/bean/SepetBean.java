@@ -6,6 +6,7 @@ import com.market.entity.Urun;
 import com.market.facadeLocal.SepetFacadeLocal; // Arayüz eklendi
 import com.market.facadeLocal.UrunFacadeLocal;  // Arayüz eklendi
 import jakarta.annotation.PostConstruct;
+import jakarta.ejb.EJB;
 import jakarta.enterprise.context.SessionScoped;
 import jakarta.inject.Inject;
 import jakarta.inject.Named;
@@ -18,10 +19,10 @@ public class SepetBean implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    @Inject
+    @EJB
     private UrunFacadeLocal urunFacade; 
 
-    @Inject
+    @EJB
     private SepetFacadeLocal sepetFacade; 
 
     @Inject

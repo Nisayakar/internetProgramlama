@@ -5,6 +5,7 @@ import com.market.entity.Urun;
 import com.market.facadeLocal.KategoriFacadeLocal;
 import com.market.facadeLocal.UrunFacadeLocal;
 import jakarta.annotation.PostConstruct;
+import jakarta.ejb.EJB;
 import jakarta.enterprise.context.SessionScoped;
 import jakarta.faces.context.FacesContext;
 import jakarta.inject.Inject;
@@ -26,10 +27,10 @@ public class UrunBean implements Serializable {
 
     private static final long serialVersionUID = 1L; 
 
-    @Inject
+    @EJB
     private UrunFacadeLocal urunFacade;
 
-    @Inject
+    @EJB
     private KategoriFacadeLocal kategoriFacade;
 
     private Urun urun;
