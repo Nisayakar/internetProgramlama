@@ -120,6 +120,14 @@
                             value="Siparişlerim"
                             rendered="#{sessionBean.girisYapmis}"
                             styleClass="#{activePage eq 'myOrders' ? 'rounded-lg bg-slate-950 px-3 py-2 text-white' : 'rounded-lg px-3 py-2 text-slate-600 hover:bg-slate-100 hover:text-slate-950'}"/>
+                    <h:link outcome="/app/favoriler.xhtml"
+                            value="Favorilerim"
+                            rendered="#{sessionBean.girisYapmis}"
+                            styleClass="#{activePage eq 'favorites' ? 'rounded-lg bg-slate-950 px-3 py-2 text-white' : 'rounded-lg px-3 py-2 text-slate-600 hover:bg-slate-100 hover:text-slate-950'}"/>
+                    <h:link outcome="/app/adresler.xhtml"
+                            value="Adreslerim"
+                            rendered="#{sessionBean.girisYapmis}"
+                            styleClass="#{activePage eq 'addresses' ? 'rounded-lg bg-slate-950 px-3 py-2 text-white' : 'rounded-lg px-3 py-2 text-slate-600 hover:bg-slate-100 hover:text-slate-950'}"/>
                     <h:link outcome="/app/sepet.xhtml"
                             rendered="#{sessionBean.girisYapmis}"
                             styleClass="#{activePage eq 'cart' ? 'ring-2 ring-teal-600 ring-offset-2' : 'hover:scale-105'} relative flex items-center justify-center w-12 h-12 bg-white/90 backdrop-blur-md shadow-lg rounded-full transition-transform duration-300">

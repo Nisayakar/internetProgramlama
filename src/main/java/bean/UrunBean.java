@@ -118,7 +118,7 @@ public class UrunBean implements Serializable {
 
     public void sil(Urun u) {
         if (urunFacade.sepetteVar(u.getId())) {
-            mesaj = "Sepette bulunan ürün silinemez.";
+            mesaj = "Sepet, favori veya yorum kaydı olan ürün silinemez.";
             return;
         }
         urunFacade.sil(u);

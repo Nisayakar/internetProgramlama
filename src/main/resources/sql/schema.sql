@@ -57,3 +57,35 @@ CREATE TABLE IF NOT EXISTS siparis_detay (
     miktar INTEGER NOT NULL,
     CONSTRAINT fk_siparis_detay_siparis FOREIGN KEY (siparis_id) REFERENCES siparis(id) ON DELETE CASCADE
 );
+
+CREATE TABLE IF NOT EXISTS adres (
+    id BIGSERIAL PRIMARY KEY,
+    baslik VARCHAR(80) NOT NULL,
+    il VARCHAR(60) NOT NULL,
+    ilce VARCHAR(80) NOT NULL,
+    acikadres VARCHAR(500) NOT NULL,
+    telefon VARCHAR(20),
+    kullanici_id BIGINT NOT NULL,
+    CONSTRAINT fk_adres_kullanici FOREIGN KEY (kullanici_id) REFERENCES kullanici(id) ON DELETE CASCADE
+);
+
+CREATE TABLE IF NOT EXISTS favori (
+    id BIGSERIAL PRIMARY KEY,
+    kullanici_id BIGINT NOT NULL,
+    urun_id BIGINT NOT NULL,
+    eklenmetarihi TIMESTAMP NOT NULL,
+    CONSTRAINT fk_favori_kullanici FOREIGN KEY (kullanici_id) REFERENCES kullanici(id) ON DELETE CASCADE,
+    CONSTRAINT fk_favori_urun FOREIGN KEY (urun_id) REFERENCES urun(id) ON DELETE CASCADE,
+    CONSTRAINT uq_favori_kullanici_urun UNIQUE (kullanici_id, urun_id)
+);
+
+CREATE TABLE IF NOT EXISTS yorum (
+    id BIGSERIAL PRIMARY KEY,
+    yorummetni VARCHAR(500) NOT NULL,
+    puan INTEGER NOT NULL,
+    yorumtarihi TIMESTAMP NOT NULL,
+    kullanici_id BIGINT NOT NULL,
+    urun_id BIGINT NOT NULL,
+    CONSTRAINT fk_yorum_kullanici FOREIGN KEY (kullanici_id) REFERENCES kullanici(id) ON DELETE CASCADE,
+    CONSTRAINT fk_yorum_urun FOREIGN KEY (urun_id) REFERENCES urun(id) ON DELETE CASCADE
+);

@@ -16,6 +16,9 @@
         <class>entity.SepetElemani</class>
         <class>entity.Siparis</class>
         <class>entity.SiparisDetay</class>
+        <class>entity.Adres</class>
+        <class>entity.Favori</class>
+        <class>entity.Yorum</class>
 
         <properties>
             <property name="jakarta.persistence.schema-generation.database.action" value="none"/>

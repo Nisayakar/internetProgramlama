@@ -1,8 +1,11 @@
 package facade;
 
 import entity.Kullanici;
+import entity.Adres;
+import entity.Favori;
 import entity.Sepet;
 import entity.Siparis;
+import entity.Yorum;
 import facadeLocal.KullaniciFacadeLocal;
 import jakarta.ejb.Stateless;
 import jakarta.persistence.TypedQuery;
@@ -95,6 +98,24 @@ public class KullaniciFacade extends AbstractFacade implements KullaniciFacadeLo
         sepetCq.where(cb.equal(sepetRoot.get("kullanici").get("id"), kullaniciId));
         Long sepetSayisi = this.entityManager.createQuery(sepetCq).getSingleResult();
 
-        return siparisSayisi + sepetSayisi > 0;
+        CriteriaQuery<Long> adresCq = cb.createQuery(Long.class);
+        Root<Adres> adresRoot = adresCq.from(Adres.class);
+        adresCq.select(cb.count(adresRoot));
+        adresCq.where(cb.equal(adresRoot.get("kullanici").get("id"), kullaniciId));
+        Long adresSayisi = this.entityManager.createQuery(adresCq).getSingleResult();
+
+        CriteriaQuery<Long> favoriCq = cb.createQuery(Long.class);
+        Root<Favori> favoriRoot = favoriCq.from(Favori.class);
+        favoriCq.select(cb.count(favoriRoot));
+        favoriCq.where(cb.equal(favoriRoot.get("kullanici").get("id"), kullaniciId));
+        Long favoriSayisi = this.entityManager.createQuery(favoriCq).getSingleResult();
+
+        CriteriaQuery<Long> yorumCq = cb.createQuery(Long.class);
+        Root<Yorum> yorumRoot = yorumCq.from(Yorum.class);
+        yorumCq.select(cb.count(yorumRoot));
+        yorumCq.where(cb.equal(yorumRoot.get("kullanici").get("id"), kullaniciId));
+        Long yorumSayisi = this.entityManager.createQuery(yorumCq).getSingleResult();
+
+        return siparisSayisi + sepetSayisi + adresSayisi + favoriSayisi + yorumSayisi > 0;
     }
 }

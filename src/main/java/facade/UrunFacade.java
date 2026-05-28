@@ -2,6 +2,8 @@ package facade;
 
 import entity.Urun;
 import entity.SepetElemani;
+import entity.Favori;
+import entity.Yorum;
 import facadeLocal.UrunFacadeLocal;
 import jakarta.ejb.Stateless;
 import jakarta.persistence.TypedQuery;
@@ -55,13 +57,24 @@ public class UrunFacade extends AbstractFacade implements UrunFacadeLocal {
 
     public boolean sepetteVar(Long urunId) {
         CriteriaBuilder cb = this.entityManager.getCriteriaBuilder();
-        CriteriaQuery<Long> cq = cb.createQuery(Long.class);
-        Root<SepetElemani> root = cq.from(SepetElemani.class);
-        cq.select(cb.count(root));
-        cq.where(cb.equal(root.get("urun").get("id"), urunId));
-        TypedQuery<Long> q = this.entityManager.createQuery(cq);
-        Long adet = q.getSingleResult();
+        CriteriaQuery<Long> sepetCq = cb.createQuery(Long.class);
+        Root<SepetElemani> sepetRoot = sepetCq.from(SepetElemani.class);
+        sepetCq.select(cb.count(sepetRoot));
+        sepetCq.where(cb.equal(sepetRoot.get("urun").get("id"), urunId));
+        Long sepetAdet = this.entityManager.createQuery(sepetCq).getSingleResult();
 
-        return adet > 0;
+        CriteriaQuery<Long> favoriCq = cb.createQuery(Long.class);
+        Root<Favori> favoriRoot = favoriCq.from(Favori.class);
+        favoriCq.select(cb.count(favoriRoot));
+        favoriCq.where(cb.equal(favoriRoot.get("urun").get("id"), urunId));
+        Long favoriAdet = this.entityManager.createQuery(favoriCq).getSingleResult();
+
+        CriteriaQuery<Long> yorumCq = cb.createQuery(Long.class);
+        Root<Yorum> yorumRoot = yorumCq.from(Yorum.class);
+        yorumCq.select(cb.count(yorumRoot));
+        yorumCq.where(cb.equal(yorumRoot.get("urun").get("id"), urunId));
+        Long yorumAdet = this.entityManager.createQuery(yorumCq).getSingleResult();
+
+        return sepetAdet + favoriAdet + yorumAdet > 0;
     }
 }
