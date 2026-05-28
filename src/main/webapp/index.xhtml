@@ -1,14 +1,11 @@
-<?xml version="1.0" encoding="UTF-8" ?>
-<!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:h="jakarta.faces.html"
-      xmlns:f="jakarta.faces.core"
-      xmlns:ui="jakarta.faces.facelets"
-      lang="tr">
-<ui:composition template="/template.xhtml">
+<ui:composition template="/template.xhtml"
+                xmlns:ui="jakarta.faces.facelets"
+                xmlns:h="jakarta.faces.html"
+                xmlns:f="jakarta.faces.core"
+                xmlns:p="jakarta.faces.passthrough">
     <ui:param name="activePage" value="store"/>
     <ui:define name="title">CleanMarket - Mağaza</ui:define>
-    <ui:define name="content">
+    <ui:define name="mainContent">
         <main class="mx-auto max-w-screen-2xl px-4 py-8 sm:px-6 lg:px-8">
             <section class="relative overflow-hidden rounded-xl border border-slate-200 bg-white shadow-sm">
                 <img src="#{request.contextPath}/resources/images/NİSAEkran görüntüsü 2026-05-02 222643.png"
@@ -99,4 +96,3 @@
         </main>
     </ui:define>
 </ui:composition>
-</html>

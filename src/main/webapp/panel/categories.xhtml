@@ -1,14 +1,11 @@
-<?xml version="1.0" encoding="UTF-8" ?>
-<!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:h="jakarta.faces.html"
-      xmlns:f="jakarta.faces.core"
-      xmlns:ui="jakarta.faces.facelets"
-      lang="tr">
-<ui:composition template="/template.xhtml">
+<ui:composition template="/template.xhtml"
+                xmlns:ui="jakarta.faces.facelets"
+                xmlns:h="jakarta.faces.html"
+                xmlns:f="jakarta.faces.core"
+                xmlns:p="jakarta.faces.passthrough">
     <ui:param name="activePage" value="categories"/>
     <ui:define name="title">CleanMarket - Kategori Yönetimi</ui:define>
-    <ui:define name="content">
+    <ui:define name="mainContent">
         <main class="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
             <section class="mb-6 flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
                 <div>
@@ -92,4 +89,3 @@
         </main>
     </ui:define>
 </ui:composition>
-</html>

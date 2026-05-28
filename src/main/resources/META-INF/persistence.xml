@@ -9,19 +9,17 @@
 
         <jta-data-source>jdbc/MarketDB</jta-data-source>
 
-        <class>com.market.entity.Kullanici</class>
-        <class>com.market.entity.Kategori</class>
-        <class>com.market.entity.Urun</class>
-        <class>com.market.entity.Sepet</class>
-        <class>com.market.entity.SepetElemani</class>
-        <class>com.market.entity.Siparis</class>
-        <class>com.market.entity.SiparisDurumConverter</class>
-        <class>com.market.entity.SiparisDetay</class>
+        <class>entity.Kullanici</class>
+        <class>entity.Kategori</class>
+        <class>entity.Urun</class>
+        <class>entity.Sepet</class>
+        <class>entity.SepetElemani</class>
+        <class>entity.Siparis</class>
+        <class>entity.SiparisDetay</class>
 
         <properties>
-            <property name="jakarta.persistence.schema-generation.database.action" value="create"/>
-            <property name="eclipselink.logging.level" value="INFO"/>
-            <property name="eclipselink.weaving" value="false"/>
+            <property name="jakarta.persistence.schema-generation.database.action" value="none"/>
         </properties>
     </persistence-unit>
 </persistence>
+

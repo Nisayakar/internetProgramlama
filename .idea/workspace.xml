@@ -11,34 +11,9 @@
   <component name="ChangeListManager">
     <list default="true" id="748f1a8b-0544-4101-8195-0f5a3c137fa7" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/MarketSistemi_war_exploded/WEB-INF/classes/com/market/bean/BootstrapBean.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/artifacts/MarketSistemi_war_exploded/WEB-INF/classes/com/market/bean/BootstrapBean.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/MarketSistemi_war_exploded/WEB-INF/classes/com/market/bean/KategoriBean.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/artifacts/MarketSistemi_war_exploded/WEB-INF/classes/com/market/bean/KategoriBean.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/MarketSistemi_war_exploded/WEB-INF/classes/com/market/bean/KullaniciBean.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/artifacts/MarketSistemi_war_exploded/WEB-INF/classes/com/market/bean/KullaniciBean.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/MarketSistemi_war_exploded/WEB-INF/classes/com/market/bean/SepetBean.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/artifacts/MarketSistemi_war_exploded/WEB-INF/classes/com/market/bean/SepetBean.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/MarketSistemi_war_exploded/WEB-INF/classes/com/market/bean/SessionBean.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/artifacts/MarketSistemi_war_exploded/WEB-INF/classes/com/market/bean/SessionBean.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/MarketSistemi_war_exploded/WEB-INF/classes/com/market/bean/SiparisBean.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/artifacts/MarketSistemi_war_exploded/WEB-INF/classes/com/market/bean/SiparisBean.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/artifacts/MarketSistemi_war_exploded/WEB-INF/classes/com/market/bean/UrunBean.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/artifacts/MarketSistemi_war_exploded/WEB-INF/classes/com/market/bean/UrunBean.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/MarketSistemi_war_exploded/WEB-INF/classes/com/market/entity/Kategori.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/artifacts/MarketSistemi_war_exploded/WEB-INF/classes/com/market/entity/Kategori.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/MarketSistemi_war_exploded/WEB-INF/classes/com/market/entity/Kullanici.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/artifacts/MarketSistemi_war_exploded/WEB-INF/classes/com/market/entity/Kullanici.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/MarketSistemi_war_exploded/WEB-INF/classes/com/market/entity/Sepet.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/artifacts/MarketSistemi_war_exploded/WEB-INF/classes/com/market/entity/Sepet.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/MarketSistemi_war_exploded/WEB-INF/classes/com/market/entity/SepetElemani.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/artifacts/MarketSistemi_war_exploded/WEB-INF/classes/com/market/entity/SepetElemani.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/MarketSistemi_war_exploded/WEB-INF/classes/com/market/entity/Siparis.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/artifacts/MarketSistemi_war_exploded/WEB-INF/classes/com/market/entity/Siparis.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/MarketSistemi_war_exploded/WEB-INF/classes/com/market/entity/SiparisDetay.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/artifacts/MarketSistemi_war_exploded/WEB-INF/classes/com/market/entity/SiparisDetay.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/MarketSistemi_war_exploded/WEB-INF/classes/com/market/entity/SiparisDurumConverter.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/artifacts/MarketSistemi_war_exploded/WEB-INF/classes/com/market/entity/SiparisDurumConverter.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/MarketSistemi_war_exploded/WEB-INF/classes/com/market/entity/Urun.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/artifacts/MarketSistemi_war_exploded/WEB-INF/classes/com/market/entity/Urun.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/MarketSistemi_war_exploded/WEB-INF/classes/com/market/enums/Rol.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/artifacts/MarketSistemi_war_exploded/WEB-INF/classes/com/market/enums/Rol.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/MarketSistemi_war_exploded/WEB-INF/classes/com/market/enums/SiparisDurum.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/artifacts/MarketSistemi_war_exploded/WEB-INF/classes/com/market/enums/SiparisDurum.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/MarketSistemi_war_exploded/WEB-INF/classes/com/market/facade/KategoriFacade.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/artifacts/MarketSistemi_war_exploded/WEB-INF/classes/com/market/facade/KategoriFacade.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/MarketSistemi_war_exploded/WEB-INF/classes/com/market/facade/KullaniciFacade.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/artifacts/MarketSistemi_war_exploded/WEB-INF/classes/com/market/facade/KullaniciFacade.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/MarketSistemi_war_exploded/WEB-INF/classes/com/market/facade/SepetFacade.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/artifacts/MarketSistemi_war_exploded/WEB-INF/classes/com/market/facade/SepetFacade.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/MarketSistemi_war_exploded/WEB-INF/classes/com/market/facade/SiparisFacade.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/artifacts/MarketSistemi_war_exploded/WEB-INF/classes/com/market/facade/SiparisFacade.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/MarketSistemi_war_exploded/WEB-INF/classes/com/market/facade/UrunFacade.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/artifacts/MarketSistemi_war_exploded/WEB-INF/classes/com/market/facade/UrunFacade.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/MarketSistemi_war_exploded/WEB-INF/classes/com/market/filter/AuthFilter.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/artifacts/MarketSistemi_war_exploded/WEB-INF/classes/com/market/filter/AuthFilter.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/market/bean/KategoriBean.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/market/bean/KategoriBean.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/market/bean/KullaniciBean.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/market/bean/KullaniciBean.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/market/bean/SepetBean.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/market/bean/SepetBean.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/market/bean/SiparisBean.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/market/bean/SiparisBean.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/market/bean/UrunBean.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/market/bean/UrunBean.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/market/facadeLocal/KategoriFacadeLocal.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/market/facadeLocal/KategoriFacadeLocal.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -100,6 +75,7 @@
     "RunOnceActivity.MCP Project settings loaded": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252": "true",
+    "RunOnceActivity.git.unshallow": "true",
     "RunOnceActivity.typescript.service.memoryLimit.init": "true",
     "git-widget-placeholder": "main",
     "ignore.virus.scanning.warn.message": "true",
@@ -110,11 +86,16 @@
     "node.js.selected.package.eslint": "(autodetect)",
     "node.js.selected.package.tslint": "(autodetect)",
     "nodejs_package_manager_path": "npm",
-    "project.structure.last.edited": "Artifacts",
+    "project.structure.last.edited": "Modules",
     "project.structure.proportion": "0.15",
     "project.structure.side.proportion": "0.2",
     "settings.editor.selected.configurable": "preferences.keymap",
     "vue.rearranger.settings.migration": "true"
+  },
+  "keyToStringList": {
+    "DatabaseDriversLRU": [
+      "postgresql"
+    ]
   }
 }]]></component>
   <component name="RecentsManager">
@@ -344,7 +325,8 @@
       <workItem from="1777879423118" duration="5480000" />
       <workItem from="1777892790654" duration="1063000" />
       <workItem from="1778168822875" duration="147000" />
-      <workItem from="1778398169680" duration="6925000" />
+      <workItem from="1778398169680" duration="22106000" />
+      <workItem from="1779020741241" duration="600000" />
     </task>
     <servers />
   </component>

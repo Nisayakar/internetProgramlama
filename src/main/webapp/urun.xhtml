@@ -1,11 +1,8 @@
-<?xml version="1.0" encoding="UTF-8" ?>
-<!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:h="jakarta.faces.html"
-      xmlns:f="jakarta.faces.core"
-      xmlns:ui="jakarta.faces.facelets"
-      lang="tr">
-<ui:composition template="/template.xhtml">
+<ui:composition template="/template.xhtml"
+                xmlns:ui="jakarta.faces.facelets"
+                xmlns:h="jakarta.faces.html"
+                xmlns:f="jakarta.faces.core"
+                xmlns:p="jakarta.faces.passthrough">
     <f:metadata>
         <f:viewParam name="id" value="#{urunBean.detayUrunId}"/>
         <f:viewAction action="#{urunBean.detayUrunYukle}"/>
@@ -13,7 +10,7 @@
 
     <ui:param name="activePage" value="store"/>
     <ui:define name="title">CleanMarket - Ürün Detayı</ui:define>
-    <ui:define name="content">
+    <ui:define name="mainContent">
         <main class="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
             <h:panelGroup rendered="#{empty urunBean.detayUrun}" layout="block" styleClass="rounded-lg border border-amber-200 bg-amber-50 px-5 py-4 text-sm font-semibold text-amber-800">
                 Ürün bulunamadı.
@@ -69,4 +66,3 @@
         </main>
     </ui:define>
 </ui:composition>
-</html>
