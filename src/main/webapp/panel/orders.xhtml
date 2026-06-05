@@ -24,19 +24,19 @@
             <section class="mb-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
                 <div class="rounded-lg border border-slate-200 bg-white p-5 shadow-sm lg:col-span-2">
                     <span class="text-sm font-bold text-slate-500">Toplam sipariş</span>
-                    <strong class="mt-3 block text-4xl font-black text-slate-950">#{siparisBean.siparisSayisi}</strong>
+                    <strong class="mt-3 block text-4xl font-black text-slate-950">#{orderBean.orderCount}</strong>
                 </div>
                 <div class="rounded-lg border border-amber-200 bg-amber-50 p-5 shadow-sm">
                     <span class="text-sm font-bold text-amber-700">Bekleyen</span>
-                    <strong class="mt-3 block text-4xl font-black text-amber-900">#{siparisBean.onayBekleyenSayisi}</strong>
+                    <strong class="mt-3 block text-4xl font-black text-amber-900">#{orderBean.waitingOrderCount}</strong>
                 </div>
                 <div class="rounded-lg border border-emerald-200 bg-emerald-50 p-5 shadow-sm">
                     <span class="text-sm font-bold text-emerald-700">Teslim edilen</span>
-                    <strong class="mt-3 block text-4xl font-black text-emerald-900">#{siparisBean.teslimEdilenSayisi}</strong>
+                    <strong class="mt-3 block text-4xl font-black text-emerald-900">#{orderBean.deliveredOrderCount}</strong>
                 </div>
                 <div class="rounded-lg border border-slate-200 bg-white p-5 shadow-sm">
                     <span class="text-sm font-bold text-slate-500">Toplam tutar</span>
-                    <strong class="mt-3 block text-2xl font-black text-slate-950">#{siparisBean.toplamSiparisTutari} TL</strong>
+                    <strong class="mt-3 block text-2xl font-black text-slate-950">#{orderBean.totalOrderAmount} TL</strong>
                 </div>
             </section>
 
@@ -45,25 +45,25 @@
                     <h2 class="text-xl font-black text-slate-950">Sipariş Listesi</h2>
                     <span class="rounded-full bg-slate-100 px-3 py-1 text-xs font-bold text-slate-600">Operasyon</span>
                 </div>
-                <h:panelGroup rendered="#{not empty siparisBean.mesaj}" layout="block" styleClass="mb-4 rounded-lg border border-emerald-200 bg-emerald-50 px-4 py-3 text-sm font-semibold text-emerald-700">
-                    #{siparisBean.mesaj}
+                <h:panelGroup rendered="#{not empty orderBean.message}" layout="block" styleClass="mb-4 rounded-lg border border-emerald-200 bg-emerald-50 px-4 py-3 text-sm font-semibold text-emerald-700">
+                    #{orderBean.message}
                 </h:panelGroup>
-                <h:panelGroup rendered="#{siparisBean.siparisYok}" layout="block" styleClass="rounded-lg border border-sky-200 bg-sky-50 px-4 py-3 text-sm font-semibold text-sky-800">
+                <h:panelGroup rendered="#{orderBean.noOrders}" layout="block" styleClass="rounded-lg border border-sky-200 bg-sky-50 px-4 py-3 text-sm font-semibold text-sky-800">
                     Henüz sipariş yok.
                 </h:panelGroup>
 
-                <h:form rendered="#{not siparisBean.siparisYok}" styleClass="space-y-4">
-                    <ui:repeat value="#{siparisBean.tumSiparisler}" var="siparis">
+                <h:form rendered="#{not orderBean.noOrders}" styleClass="space-y-4">
+                    <ui:repeat value="#{orderBean.allOrders}" var="order">
                         <article class="rounded-lg border border-slate-200 p-5">
                             <div class="flex flex-col gap-4 md:flex-row md:items-start md:justify-between">
                                 <div>
-                                    <h3 class="text-lg font-black text-slate-950">Sipariş ##{siparis.id}</h3>
-                                    <p class="mt-1 text-sm text-slate-500">#{siparis.kullanici.adSoyad} - #{siparis.kullanici.eposta}</p>
-                                    <p class="mt-1 text-sm text-slate-500">#{siparis.siparisTarihi}</p>
+                                    <h3 class="text-lg font-black text-slate-950">Sipariş ##{order.id}</h3>
+                                    <p class="mt-1 text-sm text-slate-500">#{order.user.fullName} - #{order.user.email}</p>
+                                    <p class="mt-1 text-sm text-slate-500">#{order.orderDate}</p>
                                 </div>
                                 <div class="md:text-right">
-                                    <span class="rounded-full bg-slate-100 px-3 py-1 text-xs font-bold text-slate-700">#{siparis.durum}</span>
-                                    <div class="mt-2 text-xl font-black text-slate-950">#{siparis.genelToplam} TL</div>
+                                    <span class="rounded-full bg-slate-100 px-3 py-1 text-xs font-bold text-slate-700">#{order.status}</span>
+                                    <div class="mt-2 text-xl font-black text-slate-950">#{order.totalAmount} TL</div>
                                 </div>
                             </div>
 
@@ -77,11 +77,11 @@
                                     </tr>
                                     </thead>
                                     <tbody class="divide-y divide-slate-100">
-                                    <ui:repeat value="#{siparis.detaylar}" var="detay">
+                                    <ui:repeat value="#{order.details}" var="detail">
                                         <tr>
-                                            <td class="px-4 py-3 font-bold text-slate-950">#{detay.urunAdi}</td>
-                                            <td class="px-4 py-3">#{detay.miktar}</td>
-                                            <td class="px-4 py-3">#{detay.alinanFiyat} TL</td>
+                                            <td class="px-4 py-3 font-bold text-slate-950">#{detail.productName}</td>
+                                            <td class="px-4 py-3">#{detail.quantity}</td>
+                                            <td class="px-4 py-3">#{detail.purchasePrice} TL</td>
                                         </tr>
                                     </ui:repeat>
                                     </tbody>
@@ -89,11 +89,11 @@
                             </div>
 
                             <div class="mt-4 flex flex-wrap gap-2">
-                                <h:commandButton action="#{siparisBean.onayla(siparis.id)}" value="Onayla" rendered="#{siparisBean.isAdminDurumGuncellenebilir(siparis)}" styleClass="rounded-lg border border-teal-200 px-3 py-2 text-xs font-bold text-teal-700 hover:bg-teal-50"/>
-                                <h:commandButton action="#{siparisBean.hazirlaniyorYap(siparis.id)}" value="Hazırlanıyor" rendered="#{siparisBean.isAdminDurumGuncellenebilir(siparis)}" styleClass="rounded-lg border border-slate-300 px-3 py-2 text-xs font-bold text-slate-700 hover:bg-slate-50"/>
-                                <h:commandButton action="#{siparisBean.teslimEt(siparis.id)}" value="Teslim Edildi" rendered="#{siparisBean.isAdminDurumGuncellenebilir(siparis)}" styleClass="rounded-lg border border-emerald-200 px-3 py-2 text-xs font-bold text-emerald-700 hover:bg-emerald-50"/>
-                                <h:commandButton action="#{siparisBean.iptalEt(siparis.id)}" value="İptal Et" rendered="#{siparisBean.isAdminDurumGuncellenebilir(siparis)}" styleClass="rounded-lg border border-amber-200 px-3 py-2 text-xs font-bold text-amber-700 hover:bg-amber-50"/>
-                                <h:commandButton action="#{siparisBean.sil(siparis.id)}" value="Sil" styleClass="rounded-lg border border-rose-200 px-3 py-2 text-xs font-bold text-rose-700 hover:bg-rose-50"/>
+                                <h:commandButton action="#{orderBean.approve(order.id)}" value="Onayla" rendered="#{orderBean.isAdminStatusUpdatable(order)}" styleClass="rounded-lg border border-teal-200 px-3 py-2 text-xs font-bold text-teal-700 hover:bg-teal-50"/>
+                                <h:commandButton action="#{orderBean.markPreparing(order.id)}" value="Hazırlanıyor" rendered="#{orderBean.isAdminStatusUpdatable(order)}" styleClass="rounded-lg border border-slate-300 px-3 py-2 text-xs font-bold text-slate-700 hover:bg-slate-50"/>
+                                <h:commandButton action="#{orderBean.deliver(order.id)}" value="Teslim Edildi" rendered="#{orderBean.isAdminStatusUpdatable(order)}" styleClass="rounded-lg border border-emerald-200 px-3 py-2 text-xs font-bold text-emerald-700 hover:bg-emerald-50"/>
+                                <h:commandButton action="#{orderBean.cancel(order.id)}" value="İptal Et" rendered="#{orderBean.isAdminStatusUpdatable(order)}" styleClass="rounded-lg border border-amber-200 px-3 py-2 text-xs font-bold text-amber-700 hover:bg-amber-50"/>
+                                <h:commandButton action="#{orderBean.delete(order.id)}" value="Sil" styleClass="rounded-lg border border-rose-200 px-3 py-2 text-xs font-bold text-rose-700 hover:bg-rose-50"/>
                             </div>
                         </article>
                     </ui:repeat>
@@ -102,3 +102,5 @@
         </main>
     </ui:define>
 </ui:composition>
+
+

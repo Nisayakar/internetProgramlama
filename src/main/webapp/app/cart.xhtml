@@ -1,0 +1,67 @@
+<ui:composition template="/template.xhtml"
+                xmlns:ui="jakarta.faces.facelets"
+                xmlns:h="jakarta.faces.html"
+                xmlns:f="jakarta.faces.core"
+                xmlns:p="jakarta.faces.passthrough">
+    <ui:param name="activePage" value="cart"/>
+    <ui:define name="title">CleanMarket - Sepetim</ui:define>
+    <ui:define name="mainContent">
+        <main class="mx-auto max-w-5xl px-4 py-8 sm:px-6 lg:px-8">
+            <section class="mb-6 rounded-lg border border-slate-200 bg-white p-6 shadow-sm">
+                <span class="text-sm font-bold uppercase tracking-wide text-teal-700">Alışveriş sepeti</span>
+                <div class="mt-2 flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
+                    <div>
+                        <h1 class="text-3xl font-black text-slate-950">Sepetim</h1>
+                        <p class="mt-2 text-slate-500">Ürünlerinizi kontrol edin, miktarları düzenleyin ve siparişinizi tamamlayın.</p>
+                    </div>
+                    <span class="w-fit rounded-full bg-slate-100 px-4 py-2 text-sm font-bold text-slate-600">#{cartBean.cartItemCount} ürün</span>
+                </div>
+            </section>
+
+            <section class="rounded-lg border border-slate-200 bg-white p-5 shadow-sm">
+                <h:panelGroup rendered="#{not empty cartBean.message}" layout="block" styleClass="mb-4 rounded-lg border border-slate-200 bg-slate-50 px-4 py-3 text-sm font-semibold text-slate-700">
+                    #{cartBean.message}
+                </h:panelGroup>
+                <h:panelGroup rendered="#{not empty orderBean.message}" layout="block" styleClass="mb-4 rounded-lg border border-emerald-200 bg-emerald-50 px-4 py-3 text-sm font-semibold text-emerald-700">
+                    #{orderBean.message}
+                </h:panelGroup>
+
+                <h:panelGroup rendered="#{cartBean.cartEmpty}" layout="block" styleClass="rounded-lg border border-dashed border-slate-300 px-4 py-12 text-center text-sm font-semibold text-slate-500">
+                    Sepetiniz boş.
+                </h:panelGroup>
+
+                <h:form rendered="#{not cartBean.cartEmpty}" styleClass="space-y-4">
+                    <ui:repeat value="#{cartBean.cart.items}" var="item">
+                        <div class="grid gap-4 rounded-lg border border-slate-200 p-4 sm:grid-cols-[1fr_auto] sm:items-center">
+                            <div>
+                                <div class="text-lg font-black text-slate-900">#{item.product.name}</div>
+                                <div class="mt-1 text-sm text-slate-500">Ara toplam: #{item.subtotal} TL</div>
+                            </div>
+                            <div class="flex items-center gap-2">
+                                <h:commandButton action="#{cartBean.decreaseQuantity(item)}" value="-" styleClass="h-10 w-10 rounded-lg border border-slate-300 font-black text-slate-700 hover:bg-slate-100"/>
+                                <span class="grid h-10 min-w-12 place-items-center rounded-lg bg-slate-100 px-3 text-sm font-black">#{item.quantity}</span>
+                                <h:commandButton action="#{cartBean.addToCart(item.product.id)}" value="+" styleClass="h-10 w-10 rounded-lg border border-slate-300 font-black text-slate-700 hover:bg-slate-100"/>
+                                <h:commandButton action="#{cartBean.removeFromCart(item)}" value="Sil" styleClass="rounded-lg border border-rose-200 px-4 py-2 text-sm font-bold text-rose-700 hover:bg-rose-50"/>
+                            </div>
+                        </div>
+                    </ui:repeat>
+
+                    <div class="mt-6 rounded-lg bg-slate-50 p-5">
+                        <div class="flex items-center justify-between text-xl font-black text-slate-950">
+                            <span>Toplam</span>
+                            <span>#{cartBean.cart.totalAmount} TL</span>
+                        </div>
+                        <div class="mt-4 grid gap-3 sm:grid-cols-[1fr_auto]">
+                            <h:link outcome="/index.xhtml" value="Alışverişe Devam Et" styleClass="rounded-lg border border-slate-300 px-5 py-3 text-center font-bold text-slate-700 hover:bg-white"/>
+                            <h:commandButton action="#{orderBean.completeOrder()}"
+                                             value="Siparişi Tamamla"
+                                             styleClass="rounded-lg bg-teal-700 px-6 py-3 font-bold text-white hover:bg-teal-800"/>
+                        </div>
+                    </div>
+                </h:form>
+            </section>
+        </main>
+    </ui:define>
+</ui:composition>
+
+

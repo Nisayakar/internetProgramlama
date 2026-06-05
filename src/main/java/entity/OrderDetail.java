@@ -1,0 +1,73 @@
+package entity;
+
+import jakarta.persistence.*;
+import java.io.Serializable;
+
+@Entity
+@Table(name = "order_detail")
+public class OrderDetail implements Serializable {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
+    private Long id;
+
+    @ManyToOne
+    @JoinColumn(name = "order_id", nullable = false)
+    private Order order;
+
+    @Column(name = "productname", nullable = false, length = 140)
+    private String productName;
+
+    @Column(name = "purchaseprice", nullable = false)
+    private Double purchasePrice;
+
+    @Column(name = "quantity", nullable = false)
+    private Integer quantity;
+
+    public OrderDetail() {
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public Order getOrder() {
+        return order;
+    }
+
+    public void setOrder(Order order) {
+        this.order = order;
+    }
+
+    public String getProductName() {
+        return productName;
+    }
+
+    public void setProductName(String productName) {
+        this.productName = productName;
+    }
+
+    public Double getPurchasePrice() {
+        return purchasePrice;
+    }
+
+    public void setPurchasePrice(Double purchasePrice) {
+        this.purchasePrice = purchasePrice;
+    }
+
+    public Integer getQuantity() {
+        return quantity;
+    }
+
+    public void setQuantity(Integer quantity) {
+        this.quantity = quantity;
+    }
+}
+
+
+

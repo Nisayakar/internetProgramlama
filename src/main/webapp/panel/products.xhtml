@@ -24,19 +24,19 @@
             <section class="mb-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
                 <div class="rounded-lg border border-slate-200 bg-white p-5 shadow-sm lg:col-span-2">
                     <span class="text-sm font-bold text-slate-500">Toplam ürün</span>
-                    <strong class="mt-3 block text-4xl font-black text-slate-950">#{urunBean.urunSayisi}</strong>
+                    <strong class="mt-3 block text-4xl font-black text-slate-950">#{productBean.productCount}</strong>
                 </div>
                 <div class="rounded-lg border border-slate-200 bg-white p-5 shadow-sm">
                     <span class="text-sm font-bold text-slate-500">Kategori</span>
-                    <strong class="mt-3 block text-4xl font-black text-slate-950">#{urunBean.kategoriSayisi}</strong>
+                    <strong class="mt-3 block text-4xl font-black text-slate-950">#{productBean.categoryCount}</strong>
                 </div>
-                <h:panelGroup layout="block" styleClass="rounded-lg border border-amber-200 bg-amber-50 p-5 shadow-sm" rendered="#{urunBean.stokUyarisiSayisi gt 0}">
+                <h:panelGroup layout="block" styleClass="rounded-lg border border-amber-200 bg-amber-50 p-5 shadow-sm" rendered="#{productBean.lowStockWarningCount gt 0}">
                     <span class="text-sm font-bold text-amber-700">Stok uyarısı</span>
-                    <strong class="mt-3 block text-4xl font-black text-amber-900">#{urunBean.stokUyarisiSayisi}</strong>
+                    <strong class="mt-3 block text-4xl font-black text-amber-900">#{productBean.lowStockWarningCount}</strong>
                 </h:panelGroup>
                 <div class="rounded-lg border border-slate-200 bg-white p-5 shadow-sm">
                     <span class="text-sm font-bold text-slate-500">Envanter değeri</span>
-                    <strong class="mt-3 block text-2xl font-black text-slate-950">#{urunBean.toplamEnvanterDegeri} TL</strong>
+                    <strong class="mt-3 block text-2xl font-black text-slate-950">#{productBean.totalInventoryValue} TL</strong>
                 </div>
             </section>
 
@@ -45,45 +45,45 @@
                     <h2 class="text-xl font-black text-slate-950">Ürün Ekle / Güncelle</h2>
                     <h:form enctype="multipart/form-data" styleClass="mt-5 space-y-4">
                         <h:messages globalOnly="false" styleClass="text-red-500 font-bold mb-4"/>
-                        <h:panelGroup rendered="#{not empty urunBean.mesaj}" layout="block" styleClass="rounded-lg border border-sky-200 bg-sky-50 px-4 py-3 text-sm font-semibold text-sky-800">
-                            #{urunBean.mesaj}
+                        <h:panelGroup rendered="#{not empty productBean.message}" layout="block" styleClass="rounded-lg border border-sky-200 bg-sky-50 px-4 py-3 text-sm font-semibold text-sky-800">
+                            #{productBean.message}
                         </h:panelGroup>
                         <div>
                             <label class="mb-2 block text-sm font-bold text-slate-700">Ürün Adı</label>
-                            <h:inputText value="#{urunBean.urun.ad}" required="true" styleClass="w-full rounded-lg border border-slate-300 px-4 py-3 outline-none focus:border-teal-600 focus:ring-4 focus:ring-teal-100"/>
+                            <h:inputText value="#{productBean.product.name}" required="true" styleClass="w-full rounded-lg border border-slate-300 px-4 py-3 outline-none focus:border-teal-600 focus:ring-4 focus:ring-teal-100"/>
                         </div>
                         <div>
                             <label class="mb-2 block text-sm font-bold text-slate-700">Açıklama</label>
-                            <h:inputTextarea value="#{urunBean.urun.aciklama}" styleClass="min-h-28 w-full rounded-lg border border-slate-300 px-4 py-3 outline-none focus:border-teal-600 focus:ring-4 focus:ring-teal-100"/>
+                            <h:inputTextarea value="#{productBean.product.description}" styleClass="min-h-28 w-full rounded-lg border border-slate-300 px-4 py-3 outline-none focus:border-teal-600 focus:ring-4 focus:ring-teal-100"/>
                         </div>
                         <div>
                             <label class="mb-2 block text-sm font-bold text-slate-700">Kategori</label>
-                            <h:selectOneMenu value="#{urunBean.seciliKategoriId}" styleClass="w-full px-4 py-2 border border-outline-variant rounded-lg bg-surface focus:border-primary focus:ring-1 text-on-surface">
+                            <h:selectOneMenu value="#{productBean.selectedCategoryId}" styleClass="w-full px-4 py-2 border border-outline-variant rounded-lg bg-surface focus:border-primary focus:ring-1 text-on-surface">
                                 <f:selectItem itemLabel="Kategori seçin" itemValue="#{null}" noSelectionOption="true"/>
-                                <f:selectItems value="#{kategoriBean.tumKategoriler}" var="kat" itemValue="#{kat.id}" itemLabel="#{kat.ad}"/>
+                                <f:selectItems value="#{categoryBean.allCategories}" var="category" itemValue="#{category.id}" itemLabel="#{category.name}"/>
                             </h:selectOneMenu>
                         </div>
                         <div class="grid gap-4 sm:grid-cols-2">
                             <div>
                                 <label class="mb-2 block text-sm font-bold text-slate-700">Fiyat</label>
-                                <h:inputText value="#{urunBean.urun.guncelFiyat}" required="true" styleClass="w-full rounded-lg border border-slate-300 px-4 py-3 outline-none focus:border-teal-600 focus:ring-4 focus:ring-teal-100"/>
+                                <h:inputText value="#{productBean.product.currentPrice}" required="true" styleClass="w-full rounded-lg border border-slate-300 px-4 py-3 outline-none focus:border-teal-600 focus:ring-4 focus:ring-teal-100"/>
                             </div>
                             <div>
                                 <label class="mb-2 block text-sm font-bold text-slate-700">Stok</label>
-                                <h:inputText value="#{urunBean.urun.stokAdedi}" required="true" styleClass="w-full rounded-lg border border-slate-300 px-4 py-3 outline-none focus:border-teal-600 focus:ring-4 focus:ring-teal-100"/>
+                                <h:inputText value="#{productBean.product.stockQuantity}" required="true" styleClass="w-full rounded-lg border border-slate-300 px-4 py-3 outline-none focus:border-teal-600 focus:ring-4 focus:ring-teal-100"/>
                             </div>
                         </div>
                         <div>
                             <label class="mb-2 block text-sm font-bold text-slate-700">Ürün Görseli</label>
                             <div class="rounded-lg border-2 border-dashed border-slate-300 bg-slate-50 p-4 transition hover:border-teal-500 hover:bg-teal-50/40">
-                                <h:inputFile value="#{urunBean.yuklenenGorsel}"
+                                <h:inputFile value="#{productBean.uploadedImage}"
                                              styleClass="block w-full cursor-pointer rounded-lg border border-slate-300 bg-white text-sm font-semibold text-slate-700 file:mr-4 file:border-0 file:bg-teal-700 file:px-4 file:py-3 file:text-sm file:font-bold file:text-white hover:file:bg-teal-800"/>
                                 <p class="mt-2 text-xs font-semibold text-slate-500">Dosya seçilmediğinde mevcut görsel korunur. JPG, PNG, WEBP veya GIF yükleyebilirsiniz.</p>
                             </div>
                         </div>
                         <div class="grid gap-3 sm:grid-cols-2">
-                            <h:commandButton action="#{urunBean.kaydet}" value="Kaydet" styleClass="rounded-lg bg-teal-700 px-4 py-3 font-bold text-white hover:bg-teal-800"/>
-                            <h:commandButton action="#{urunBean.temizle}" value="Formu Temizle" immediate="true" styleClass="rounded-lg border border-slate-300 px-4 py-3 font-bold text-slate-700 hover:bg-slate-50"/>
+                            <h:commandButton action="#{productBean.save}" value="Kaydet" styleClass="rounded-lg bg-teal-700 px-4 py-3 font-bold text-white hover:bg-teal-800"/>
+                            <h:commandButton action="#{productBean.clear}" value="Formu Temizle" immediate="true" styleClass="rounded-lg border border-slate-300 px-4 py-3 font-bold text-slate-700 hover:bg-slate-50"/>
                         </div>
                     </h:form>
                 </section>
@@ -91,13 +91,13 @@
                 <section class="rounded-lg border border-slate-200 bg-white p-5 shadow-sm">
                     <div class="mb-5 flex items-center justify-between">
                         <h2 class="text-xl font-black text-slate-950">Ürün Listesi</h2>
-                        <span class="rounded-full bg-slate-100 px-3 py-1 text-xs font-bold text-slate-600">#{urunBean.tumUrunler.size()} kayıt</span>
+                        <span class="rounded-full bg-slate-100 px-3 py-1 text-xs font-bold text-slate-600">#{productBean.allProducts.size()} kayıt</span>
                     </div>
-                    <h:panelGroup rendered="#{urunBean.urunYok}" layout="block" styleClass="rounded-lg border border-sky-200 bg-sky-50 px-4 py-3 text-sm font-semibold text-sky-800">
+                    <h:panelGroup rendered="#{productBean.noProducts}" layout="block" styleClass="rounded-lg border border-sky-200 bg-sky-50 px-4 py-3 text-sm font-semibold text-sky-800">
                         Henüz ürün eklenmedi.
                     </h:panelGroup>
 
-                    <h:form rendered="#{not urunBean.urunYok}">
+                    <h:form rendered="#{not productBean.noProducts}">
                         <div class="overflow-x-auto">
                             <table class="min-w-full divide-y divide-slate-200 text-sm">
                                 <thead class="bg-slate-50 text-left text-xs font-black uppercase tracking-wide text-slate-500">
@@ -112,24 +112,24 @@
                                 </tr>
                                 </thead>
                                 <tbody class="divide-y divide-slate-100">
-                                <ui:repeat value="#{urunBean.tumUrunler}" var="u">
+                                <ui:repeat value="#{productBean.allProducts}" var="product">
                                     <tr class="hover:bg-slate-50">
-                                        <td class="px-4 py-3 font-semibold">#{u.id}</td>
+                                        <td class="px-4 py-3 font-semibold">#{product.id}</td>
                                         <td class="px-4 py-3">
-                                            <h:panelGroup rendered="#{not empty u.gorselUrl}" layout="block">
-                                                <img src="#{request.contextPath}#{u.gorselUrl}" alt="#{u.ad}" class="h-12 w-12 rounded-lg object-cover"/>
+                                            <h:panelGroup rendered="#{not empty product.imageUrl}" layout="block">
+                                                <img src="#{resource[product.imageResourcePath]}" alt="#{product.name}" class="h-12 w-12 rounded-lg object-cover"/>
                                             </h:panelGroup>
-                                            <h:panelGroup rendered="#{empty u.gorselUrl}" layout="block" styleClass="grid h-12 w-12 place-items-center rounded-lg bg-slate-100 text-xs font-black text-slate-400">
+                                            <h:panelGroup rendered="#{empty product.imageUrl}" layout="block" styleClass="grid h-12 w-12 place-items-center rounded-lg bg-slate-100 text-xs font-black text-slate-400">
                                                 Yok
                                             </h:panelGroup>
                                         </td>
-                                        <td class="px-4 py-3 font-bold text-slate-950">#{u.ad}</td>
-                                        <td class="px-4 py-3">#{u.kategori.ad}</td>
-                                        <td class="px-4 py-3">#{u.guncelFiyat} TL</td>
-                                        <td class="px-4 py-3">#{u.stokAdedi}</td>
+                                        <td class="px-4 py-3 font-bold text-slate-950">#{product.name}</td>
+                                        <td class="px-4 py-3">#{product.category.name}</td>
+                                        <td class="px-4 py-3">#{product.currentPrice} TL</td>
+                                        <td class="px-4 py-3">#{product.stockQuantity}</td>
                                         <td class="space-x-2 whitespace-nowrap px-4 py-3 text-right">
-                                            <h:commandButton action="#{urunBean.duzenle(u)}" value="Düzenle" styleClass="rounded-lg border border-teal-200 px-3 py-2 text-xs font-bold text-teal-700 hover:bg-teal-50"/>
-                                            <h:commandButton action="#{urunBean.sil(u)}" value="Sil" styleClass="rounded-lg border border-rose-200 px-3 py-2 text-xs font-bold text-rose-700 hover:bg-rose-50"/>
+                                            <h:commandButton action="#{productBean.edit(product)}" value="Düzenle" styleClass="rounded-lg border border-teal-200 px-3 py-2 text-xs font-bold text-teal-700 hover:bg-teal-50"/>
+                                            <h:commandButton action="#{productBean.delete(product)}" value="Sil" styleClass="rounded-lg border border-rose-200 px-3 py-2 text-xs font-bold text-rose-700 hover:bg-rose-50"/>
                                         </td>
                                     </tr>
                                 </ui:repeat>
@@ -142,3 +142,5 @@
         </main>
     </ui:define>
 </ui:composition>
+
+

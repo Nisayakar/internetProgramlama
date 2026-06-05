@@ -1,0 +1,59 @@
+<ui:composition template="/template.xhtml"
+                xmlns:ui="jakarta.faces.facelets"
+                xmlns:h="jakarta.faces.html"
+                xmlns:f="jakarta.faces.core">
+    <ui:param name="activePage" value="favorites"/>
+    <ui:define name="title">CleanMarket - Favoritelerim</ui:define>
+    <ui:define name="mainContent">
+        <main class="mx-auto max-w-6xl px-4 py-8 sm:px-6 lg:px-8">
+            <section class="mb-6 rounded-lg border border-slate-200 bg-white p-6 shadow-sm">
+                <span class="text-sm font-bold uppercase tracking-wide text-teal-700">Hesabım</span>
+                <h1 class="mt-2 text-3xl font-black text-slate-950">Favoritelerim</h1>
+                <p class="mt-2 text-slate-500">Beğendiğiniz ürünleri bu listeden tekrar inceleyebilirsiniz.</p>
+            </section>
+
+            <h:panelGroup rendered="#{not empty favoriteBean.message}" layout="block" styleClass="mb-6 rounded-lg border border-emerald-200 bg-emerald-50 px-5 py-4 text-sm font-semibold text-emerald-700">
+                #{favoriteBean.message}
+            </h:panelGroup>
+
+            <h:panelGroup rendered="#{favoriteBean.noFavorites}" layout="block" styleClass="rounded-lg border border-sky-200 bg-sky-50 px-5 py-4 text-sm font-semibold text-sky-800">
+                    Henüz favori ürününüz yok.
+            </h:panelGroup>
+
+            <div class="grid grid-cols-1 gap-6 md:grid-cols-2 xl:grid-cols-3">
+                <ui:repeat value="#{favoriteBean.myFavorites}" var="favorite">
+                    <article class="flex h-full flex-col overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm">
+                        <h:link outcome="/product.xhtml" styleClass="block">
+                            <f:param name="id" value="#{favorite.product.id}"/>
+                            <div class="flex h-60 items-center justify-center bg-white p-4">
+                                <ui:fragment rendered="#{not empty favorite.product.imageUrl}">
+                                    <img src="#{resource[favorite.product.imageResourcePath]}" alt="#{favorite.product.name}" class="h-full w-full object-contain"/>
+                                </ui:fragment>
+                                <ui:fragment rendered="#{empty favorite.product.imageUrl}">
+                                    <span class="material-symbols-outlined text-4xl text-slate-400">image</span>
+                                </ui:fragment>
+                            </div>
+                        </h:link>
+                        <div class="flex flex-1 flex-col gap-3 p-5">
+                            <h:link outcome="/product.xhtml" styleClass="block hover:text-teal-700">
+                                <f:param name="id" value="#{favorite.product.id}"/>
+                                <h2 class="text-xl font-black text-slate-950">#{favorite.product.name}</h2>
+                            </h:link>
+                            <p class="text-sm text-slate-500 line-clamp-2">#{favorite.product.description}</p>
+                            <div class="mt-auto flex items-center justify-between pt-4">
+                                <span class="text-2xl font-black text-teal-700">#{favorite.product.currentPrice} TL</span>
+                                <span class="rounded-md bg-slate-100 px-2 py-1 text-xs font-bold text-slate-600">Stok: #{favorite.product.stockQuantity}</span>
+                            </div>
+                            <h:form styleClass="grid gap-2">
+                                <h:commandButton action="#{cartBean.addToCart(favorite.product.id)}" value="Sepete Ekle" styleClass="rounded-lg bg-teal-700 px-4 py-3 font-bold text-white hover:bg-teal-800"/>
+                                <h:commandButton action="#{favoriteBean.removeFavorite(favorite.id)}" value="Favoritelerden Çıkar" styleClass="rounded-lg border border-rose-200 px-4 py-3 font-bold text-rose-700 hover:bg-rose-50"/>
+                            </h:form>
+                        </div>
+                    </article>
+                </ui:repeat>
+            </div>
+        </main>
+    </ui:define>
+</ui:composition>
+
+

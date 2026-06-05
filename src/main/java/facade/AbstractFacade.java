@@ -13,3 +13,5 @@ public abstract class AbstractFacade {
 
     protected static final Locale TURKISH = Locale.forLanguageTag("tr");
 }
+
+

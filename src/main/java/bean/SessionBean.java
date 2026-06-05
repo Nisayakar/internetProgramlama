@@ -1,40 +1,42 @@
 package bean;
 
-import entity.Kullanici;
-import enums.Rol;
+import entity.User;
+import enums.Role;
 import jakarta.enterprise.context.SessionScoped;
 import jakarta.faces.context.FacesContext;
 import jakarta.inject.Named;
 import java.io.Serializable;
 
-@Named
+@Named("sessionBean")
 @SessionScoped
 public class SessionBean implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    private Kullanici kullanici;
+    private User user;
 
-    public boolean isGirisYapmis() {
-        return kullanici != null;
+    public boolean isLoggedIn() {
+        return user != null;
     }
 
     public boolean isAdmin() {
-        return isGirisYapmis() && kullanici.getRol() == Rol.ADMIN;
+        return isLoggedIn() && user.getRole() == Role.ADMIN;
     }
 
-    public String cikisYap() {
-        kullanici = null;
+    public String logout() {
+        user = null;
         FacesContext.getCurrentInstance().getExternalContext().invalidateSession();
         return "/login.xhtml?faces-redirect=true";
     }
 
-    public Kullanici getKullanici() {
-        return kullanici;
+    public User getUser() {
+        return user;
     }
 
-    public void setKullanici(Kullanici kullanici) {
-        this.kullanici = kullanici;
+    public void setUser(User user) {
+        this.user = user;
     }
 }
+
+
 

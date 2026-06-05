@@ -9,16 +9,16 @@
 
         <jta-data-source>jdbc/MarketDB</jta-data-source>
 
-        <class>entity.Kullanici</class>
-        <class>entity.Kategori</class>
-        <class>entity.Urun</class>
-        <class>entity.Sepet</class>
-        <class>entity.SepetElemani</class>
-        <class>entity.Siparis</class>
-        <class>entity.SiparisDetay</class>
-        <class>entity.Adres</class>
-        <class>entity.Favori</class>
-        <class>entity.Yorum</class>
+        <class>entity.User</class>
+        <class>entity.Category</class>
+        <class>entity.Product</class>
+        <class>entity.Cart</class>
+        <class>entity.CartItem</class>
+        <class>entity.Order</class>
+        <class>entity.OrderDetail</class>
+        <class>entity.Address</class>
+        <class>entity.Favorite</class>
+        <class>entity.Comment</class>
 
         <properties>
             <property name="jakarta.persistence.schema-generation.database.action" value="none"/>

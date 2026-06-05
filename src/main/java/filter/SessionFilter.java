@@ -1,7 +1,7 @@
 package filter;
 
-import entity.Kullanici;
-import enums.Rol;
+import entity.User;
+import enums.Role;
 import jakarta.servlet.*;
 import jakarta.servlet.annotation.WebFilter;
 import jakarta.servlet.http.HttpServletRequest;
@@ -52,7 +52,9 @@ public class SessionFilter implements Filter {
     }
 
     private boolean isAdmin(Object userObject) {
-        Kullanici kullanici = (Kullanici) userObject;
-        return kullanici.getRol() == Rol.ADMIN;
+        User user = (User) userObject;
+        return user.getRole() == Role.ADMIN;
     }
 }
+
+

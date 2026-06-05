@@ -10,96 +10,10 @@
     <meta charset="utf-8"/>
     <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
     <title><ui:insert name="title">CleanMarket</ui:insert></title>
-    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <h:outputScript library="js" name="tailwind-config.js"/>
+    <h:outputScript library="js" name="tailwind-cdn.js"/>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
-    <script id="tailwind-config">
-        tailwind.config = {
-            darkMode: "class",
-            theme: {
-                extend: {
-                    colors: {
-                        "on-tertiary-fixed-variant": "#81281b",
-                        "surface-dim": "#d5dcd7",
-                        "primary-fixed": "#6dfad2",
-                        "surface-container-low": "#eef5f0",
-                        "on-secondary-fixed-variant": "#00504e",
-                        "outline-variant": "#bbcac3",
-                        "error-container": "#ffdad6",
-                        "surface-tint": "#006b55",
-                        "surface-bright": "#f4fbf6",
-                        "tertiary": "#a03f30",
-                        "on-surface": "#161d1a",
-                        "secondary-fixed-dim": "#2edcd7",
-                        "on-tertiary": "#ffffff",
-                        "on-surface-variant": "#3c4a44",
-                        "surface-container-highest": "#dde4df",
-                        "background": "#f4fbf6",
-                        "error": "#ba1a1a",
-                        "surface-container-high": "#e3eae5",
-                        "on-primary-fixed-variant": "#005140",
-                        "tertiary-container": "#f7816d",
-                        "on-background": "#161d1a",
-                        "surface-container": "#e8f0eb",
-                        "secondary": "#006a67",
-                        "on-error-container": "#93000a",
-                        "inverse-surface": "#2b322f",
-                        "tertiary-fixed-dim": "#ffb4a7",
-                        "primary-fixed-dim": "#4bddb7",
-                        "inverse-primary": "#4bddb7",
-                        "on-secondary-fixed": "#00201f",
-                        "surface-container-lowest": "#ffffff",
-                        "secondary-fixed": "#5af9f3",
-                        "on-primary-container": "#004233",
-                        "on-secondary-container": "#00706e",
-                        "secondary-container": "#5af9f3",
-                        "surface": "#f4fbf6",
-                        "on-tertiary-fixed": "#400200",
-                        "surface-variant": "#dde4df",
-                        "on-tertiary-container": "#6e1b0f",
-                        "tertiary-fixed": "#ffdad4",
-                        "inverse-on-surface": "#ebf2ee",
-                        "on-error": "#ffffff",
-                        "primary-container": "#00b894",
-                        "on-secondary": "#ffffff",
-                        "outline": "#6c7a74",
-                        "on-primary-fixed": "#002018",
-                        "on-primary": "#ffffff",
-                        "primary": "#006b55"
-                    },
-                    borderRadius: {
-                        "DEFAULT": "0.25rem",
-                        "lg": "0.5rem",
-                        "xl": "0.75rem",
-                        "full": "9999px"
-                    },
-                    spacing: {
-                        "gutter": "24px",
-                        "base-unit": "8px",
-                        "container-max-width": "1280px",
-                        "section-padding": "80px",
-                        "margin": "32px"
-                    },
-                    fontFamily: {
-                        "body-md": ["Inter"],
-                        "label-sm": ["Inter"],
-                        "h3": ["Inter"],
-                        "h2": ["Inter"],
-                        "h1": ["Inter"],
-                        "body-lg": ["Inter"]
-                    },
-                    fontSize: {
-                        "body-md": ["16px", { lineHeight: "1.6", fontWeight: "400" }],
-                        "label-sm": ["14px", { lineHeight: "1.4", letterSpacing: "0.01em", fontWeight: "500" }],
-                        "h3": ["24px", { lineHeight: "1.3", fontWeight: "600" }],
-                        "h2": ["36px", { lineHeight: "1.2", letterSpacing: "-0.01em", fontWeight: "700" }],
-                        "h1": ["48px", { lineHeight: "1.2", letterSpacing: "-0.02em", fontWeight: "700" }],
-                        "body-lg": ["18px", { lineHeight: "1.6", fontWeight: "400" }]
-                    }
-                }
-            }
-        }
-    </script>
     <h:outputStylesheet library="css" name="bootstrap.min.css"/>
     <h:outputScript library="js" name="bootstrap.bundle.min.js"/>
 </h:head>
@@ -116,24 +30,24 @@
                     <h:link outcome="/index.xhtml"
                             value="Mağaza"
                             styleClass="#{activePage eq 'store' ? 'rounded-lg bg-slate-950 px-3 py-2 text-white' : 'rounded-lg px-3 py-2 text-slate-600 hover:bg-slate-100 hover:text-slate-950'}"/>
-                    <h:link outcome="/app/siparisler.xhtml"
+                    <h:link outcome="/app/orders.xhtml"
                             value="Siparişlerim"
-                            rendered="#{sessionBean.girisYapmis}"
+                            rendered="#{sessionBean.loggedIn}"
                             styleClass="#{activePage eq 'myOrders' ? 'rounded-lg bg-slate-950 px-3 py-2 text-white' : 'rounded-lg px-3 py-2 text-slate-600 hover:bg-slate-100 hover:text-slate-950'}"/>
-                    <h:link outcome="/app/favoriler.xhtml"
-                            value="Favorilerim"
-                            rendered="#{sessionBean.girisYapmis}"
+                    <h:link outcome="/app/favorites.xhtml"
+                            value="Favoritelerim"
+                            rendered="#{sessionBean.loggedIn}"
                             styleClass="#{activePage eq 'favorites' ? 'rounded-lg bg-slate-950 px-3 py-2 text-white' : 'rounded-lg px-3 py-2 text-slate-600 hover:bg-slate-100 hover:text-slate-950'}"/>
-                    <h:link outcome="/app/adresler.xhtml"
+                    <h:link outcome="/app/addresses.xhtml"
                             value="Adreslerim"
-                            rendered="#{sessionBean.girisYapmis}"
+                            rendered="#{sessionBean.loggedIn}"
                             styleClass="#{activePage eq 'addresses' ? 'rounded-lg bg-slate-950 px-3 py-2 text-white' : 'rounded-lg px-3 py-2 text-slate-600 hover:bg-slate-100 hover:text-slate-950'}"/>
-                    <h:link outcome="/app/sepet.xhtml"
-                            rendered="#{sessionBean.girisYapmis}"
+                    <h:link outcome="/app/cart.xhtml"
+                            rendered="#{sessionBean.loggedIn}"
                             styleClass="#{activePage eq 'cart' ? 'ring-2 ring-teal-600 ring-offset-2' : 'hover:scale-105'} relative flex items-center justify-center w-12 h-12 bg-white/90 backdrop-blur-md shadow-lg rounded-full transition-transform duration-300">
                         <span class="material-symbols-outlined text-primary text-[28px]">shopping_cart</span>
                         <span class="absolute -top-1 -right-1 bg-teal-600 text-white text-xs font-bold w-6 h-6 flex items-center justify-center rounded-full shadow-md border-2 border-white">
-                            #{sepetBean.sepetUrunSayisi}
+                            #{cartBean.cartItemCount}
                         </span>
                     </h:link>
                     <h:link outcome="/panel/products.xhtml"
@@ -142,10 +56,10 @@
                             styleClass="#{activePage eq 'products' or activePage eq 'categories' or activePage eq 'users' or activePage eq 'orders' ? 'rounded-lg bg-teal-700 px-3 py-2 text-white' : 'rounded-lg px-3 py-2 text-slate-600 hover:bg-slate-100 hover:text-slate-950'}"/>
                     <h:link outcome="/login.xhtml"
                             value="Giriş Yap"
-                            rendered="#{not sessionBean.girisYapmis}"
+                            rendered="#{not sessionBean.loggedIn}"
                             styleClass="rounded-lg bg-teal-700 px-4 py-2 text-white shadow-sm shadow-teal-900/10 hover:bg-teal-800"/>
-                    <h:form rendered="#{sessionBean.girisYapmis}">
-                        <h:commandButton action="#{kullaniciBean.cikisYap()}"
+                    <h:form rendered="#{sessionBean.loggedIn}">
+                        <h:commandButton action="#{userBean.logout()}"
                                          value="Çıkış"
                                          styleClass="rounded-lg border border-rose-200 px-3 py-2 text-sm font-semibold text-rose-700 hover:bg-rose-50"/>
                     </h:form>
@@ -169,3 +83,5 @@
 </h:body>
 </f:view>
 </html>
+
+

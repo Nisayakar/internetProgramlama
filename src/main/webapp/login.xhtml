@@ -37,15 +37,15 @@
 
                 <h:form styleClass="flex flex-col gap-5">
                     <h:messages globalOnly="true" layout="list" styleClass="rounded-lg border border-error-container bg-error-container px-4 py-3 text-sm font-semibold text-on-error-container"/>
-                    <h:panelGroup rendered="#{not empty kullaniciBean.mesaj}" layout="block" styleClass="rounded-lg border border-error-container bg-error-container px-4 py-3 text-sm font-semibold text-on-error-container">
-                        #{kullaniciBean.mesaj}
+                    <h:panelGroup rendered="#{not empty userBean.message}" layout="block" styleClass="rounded-lg border border-error-container bg-error-container px-4 py-3 text-sm font-semibold text-on-error-container">
+                        #{userBean.message}
                     </h:panelGroup>
 
                     <div class="flex flex-col gap-1.5">
                         <label class="font-label-sm text-label-sm text-on-surface">E-posta Adresi</label>
                         <div class="relative">
                             <span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-outline-variant text-sm">mail</span>
-                            <h:inputText value="#{kullaniciBean.girisEposta}" p:type="email" p:placeholder="ornek@sirket.com" required="true" styleClass="w-full bg-surface border border-outline-variant rounded-lg py-3 pl-10 pr-4 text-on-surface focus:ring-2 focus:ring-primary focus:border-primary focus:outline-none placeholder:text-outline-variant transition-all font-body-md"/>
+                            <h:inputText value="#{userBean.loginEmail}" p:type="email" p:placeholder="ornek@sirket.com" required="true" styleClass="w-full bg-surface border border-outline-variant rounded-lg py-3 pl-10 pr-4 text-on-surface focus:ring-2 focus:ring-primary focus:border-primary focus:outline-none placeholder:text-outline-variant transition-all font-body-md"/>
                         </div>
                     </div>
 
@@ -53,11 +53,11 @@
                         <label class="font-label-sm text-label-sm text-on-surface">Şifre</label>
                         <div class="relative">
                             <span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-outline-variant text-sm">lock</span>
-                            <h:inputSecret value="#{kullaniciBean.girisSifre}" p:placeholder="••••••••" required="true" styleClass="w-full bg-surface border border-outline-variant rounded-lg py-3 pl-10 pr-4 text-on-surface focus:ring-2 focus:ring-primary focus:border-primary focus:outline-none placeholder:text-outline-variant transition-all font-body-md"/>
+                            <h:inputSecret value="#{userBean.loginPassword}" p:placeholder="••••••••" required="true" styleClass="w-full bg-surface border border-outline-variant rounded-lg py-3 pl-10 pr-4 text-on-surface focus:ring-2 focus:ring-primary focus:border-primary focus:outline-none placeholder:text-outline-variant transition-all font-body-md"/>
                         </div>
                     </div>
 
-                    <h:commandButton action="#{kullaniciBean.girisYap}" value="Giriş Yap" styleClass="w-full bg-primary text-on-primary py-3.5 rounded-lg font-label-sm text-body-md font-semibold hover:bg-surface-tint hover:shadow-md transition-all flex justify-center items-center gap-2 mt-4"/>
+                    <h:commandButton action="#{userBean.login}" value="Giriş Yap" styleClass="w-full bg-primary text-on-primary py-3.5 rounded-lg font-label-sm text-body-md font-semibold hover:bg-surface-tint hover:shadow-md transition-all flex justify-center items-center gap-2 mt-4"/>
                 </h:form>
 
                 <p class="text-center font-body-md text-sm text-on-surface-variant mt-4">
@@ -70,3 +70,4 @@
         </div>
     </ui:define>
 </ui:composition>
+
