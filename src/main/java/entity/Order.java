@@ -26,9 +26,8 @@ public class Order implements Serializable {
     @Column(name = "totalamount", nullable = false)
     private Double totalAmount;
 
-    @Enumerated(EnumType.STRING)
     @Column(name = "status", nullable = false, length = 30)
-    private OrderStatus status;
+    private String status;
 
     @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<OrderDetail> details = new ArrayList<>();
@@ -69,11 +68,28 @@ public class Order implements Serializable {
     }
 
     public OrderStatus getStatus() {
-        return status;
+        if (status == null) {
+            return null;
+        }
+
+        switch (status) {
+            case "ONAY_BEKLIYOR":
+                return OrderStatus.PENDING_APPROVAL;
+            case "ONAYLANDI":
+                return OrderStatus.APPROVED;
+            case "HAZIRLANIYOR":
+                return OrderStatus.PREPARING;
+            case "TESLIM_EDILDI":
+                return OrderStatus.DELIVERED;
+            case "IPTAL_EDILDI":
+                return OrderStatus.CANCELLED;
+            default:
+                return OrderStatus.valueOf(status);
+        }
     }
 
     public void setStatus(OrderStatus status) {
-        this.status = status;
+        this.status = status == null ? null : status.name();
     }
 
     public List<OrderDetail> getDetails() {
@@ -84,5 +100,4 @@ public class Order implements Serializable {
         this.details = details;
     }
 }
-
 

@@ -10,69 +10,13 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="748f1a8b-0544-4101-8195-0f5a3c137fa7" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/artifacts/MarketSistemi_war_exploded.xml" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/bean/AdresBean.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/bean/BootstrapBean.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/bean/FavoriBean.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/bean/KategoriBean.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/bean/KullaniciBean.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/bean/SepetBean.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/bean/SessionBean.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/bean/SessionBean.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/bean/SiparisBean.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/bean/UrunBean.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/bean/YorumBean.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/entity/Adres.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/entity/Favori.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/entity/Kategori.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/entity/Kullanici.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/entity/Sepet.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/entity/SepetElemani.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/entity/Siparis.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/entity/SiparisDetay.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/entity/Urun.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/entity/Yorum.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/enums/Rol.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/enums/SiparisDurum.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/facade/AbstractFacade.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/facade/AbstractFacade.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/facade/AdresFacade.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/facade/FavoriFacade.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/facade/KategoriFacade.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/facade/KullaniciFacade.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/facade/SepetFacade.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/facade/SiparisFacade.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/facade/UrunFacade.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/facade/YorumFacade.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/facadeLocal/AdresFacadeLocal.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/facadeLocal/FavoriFacadeLocal.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/facadeLocal/KategoriFacadeLocal.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/facadeLocal/KullaniciFacadeLocal.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/facadeLocal/SepetFacadeLocal.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/facadeLocal/SiparisFacadeLocal.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/facadeLocal/UrunFacadeLocal.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/facadeLocal/YorumFacadeLocal.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/filter/SessionFilter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/filter/SessionFilter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/entity/Order.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/entity/Order.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/resources/META-INF/persistence.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/META-INF/persistence.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/sql/data.sql" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/sql/fix_nullable.sql" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/sql/queries.sql" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/sql/schema.sql" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/WEB-INF/glassfish-web.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/WEB-INF/glassfish-web.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/WEB-INF/web.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/WEB-INF/web.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/app/adresler.xhtml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/app/favoriler.xhtml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/app/sepet.xhtml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/app/siparisler.xhtml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/index.xhtml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/index.xhtml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/login.xhtml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/login.xhtml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/panel/categories.xhtml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/panel/categories.xhtml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/app/orders.xhtml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/app/orders.xhtml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/webapp/panel/orders.xhtml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/panel/orders.xhtml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/panel/products.xhtml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/panel/products.xhtml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/webapp/panel/users.xhtml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/panel/users.xhtml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/register.xhtml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/register.xhtml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/resources/css/futuristic.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/resources/css/futuristic.css" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/webapp/template.xhtml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/template.xhtml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/urun.xhtml" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -389,7 +333,7 @@
       <workItem from="1780384830793" duration="1799000" />
       <workItem from="1780427773071" duration="5527000" />
       <workItem from="1780489825906" duration="6409000" />
-      <workItem from="1780656639604" duration="1754000" />
+      <workItem from="1780656639604" duration="3064000" />
     </task>
     <servers />
   </component>
