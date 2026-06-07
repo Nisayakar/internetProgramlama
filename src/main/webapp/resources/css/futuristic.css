@@ -286,7 +286,7 @@ article.border,
     border: 0 !important;
     background:
         linear-gradient(90deg, rgba(10, 19, 17, 0.66), rgba(10, 19, 17, 0.08) 74%),
-        url("https://images.unsplash.com/photo-1556911220-bff31c812dba?auto=format&fit=crop&w=1500&q=80") center / cover !important;
+        url("../images/store-hero.jpg") center / cover !important;
     box-shadow: 0 22px 70px rgba(0, 0, 0, 0.22);
 }
 
@@ -349,26 +349,26 @@ article.border,
     content: "";
     background:
         linear-gradient(135deg, rgba(255, 230, 220, 0.92), rgba(177, 239, 223, 0.26)),
-        url("https://images.unsplash.com/photo-1585421514284-efb74c2b69ba?auto=format&fit=crop&w=700&q=80") center / cover;
+        url("../images/product-card-cleaning.jpg") center / cover;
 }
 
 .product-zone .row > div:nth-child(2) .product-card::before {
     height: 158px;
     background:
         linear-gradient(135deg, rgba(35, 44, 48, 0.28), rgba(65, 232, 212, 0.20)),
-        url("https://images.unsplash.com/photo-1620916566398-39f1143ab7be?auto=format&fit=crop&w=700&q=80") center / cover;
+        url("../images/product-card-cosmetic.jpg") center / cover;
 }
 
 .product-zone .row > div:nth-child(3) .product-card::before {
     background:
         linear-gradient(135deg, rgba(255, 246, 222, 0.74), rgba(65, 232, 212, 0.16)),
-        url("https://images.unsplash.com/photo-1600857544200-b2f666a9a2ec?auto=format&fit=crop&w=700&q=80") center / cover;
+        url("../images/product-card-grocery.jpg") center / cover;
 }
 
 .product-zone .row > div:nth-child(4) .product-card::before {
     background:
         linear-gradient(135deg, rgba(141, 243, 219, 0.25), rgba(12, 23, 20, 0.20)),
-        url("https://images.unsplash.com/photo-1583947215259-38e31be8751f?auto=format&fit=crop&w=700&q=80") center / cover;
+        url("../images/product-card-detergent.jpg") center / cover;
 }
 
 .product-card .card-body {

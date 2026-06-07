@@ -12,8 +12,8 @@
     <title><ui:insert name="title">CleanMarket</ui:insert></title>
     <h:outputScript library="js" name="tailwind-config.js"/>
     <h:outputScript library="js" name="tailwind-cdn.js"/>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
-    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+    <h:outputStylesheet library="css" name="local-fonts.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css"/>
     <h:outputStylesheet library="css" name="bootstrap.min.css"/>
     <h:outputScript library="js" name="bootstrap.bundle.min.js"/>
 </h:head>
@@ -22,7 +22,7 @@
         <header class="sticky top-0 z-40 border-b border-slate-200 bg-white/90 backdrop-blur">
             <nav class="mx-auto flex max-w-7xl flex-wrap items-center justify-between gap-3 px-4 py-4 sm:px-6 lg:px-8">
                 <h:link outcome="/index.xhtml" styleClass="flex items-center gap-3 text-lg font-black tracking-tight text-slate-950">
-                    <span class="grid h-10 w-10 place-items-center rounded-lg bg-teal-700 text-sm font-black text-white">CM</span>
+                    <i class="bi bi-shop text-3xl"></i>
                     <span>CleanMarket</span>
                 </h:link>
 
@@ -45,7 +45,7 @@
                     <h:link outcome="/app/cart.xhtml"
                             rendered="#{sessionBean.loggedIn}"
                             styleClass="#{activePage eq 'cart' ? 'ring-2 ring-teal-600 ring-offset-2' : 'hover:scale-105'} relative flex items-center justify-center w-12 h-12 bg-white/90 backdrop-blur-md shadow-lg rounded-full transition-transform duration-300">
-                        <span class="material-symbols-outlined text-primary text-[28px]">shopping_cart</span>
+                        <i class="bi bi-cart3 text-primary text-[28px]"></i>
                         <span class="absolute -top-1 -right-1 bg-teal-600 text-white text-xs font-bold w-6 h-6 flex items-center justify-center rounded-full shadow-md border-2 border-white">
                             #{cartBean.cartItemCount}
                         </span>

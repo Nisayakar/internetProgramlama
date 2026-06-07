@@ -11,11 +11,12 @@
   <component name="ChangeListManager">
     <list default="true" id="748f1a8b-0544-4101-8195-0f5a3c137fa7" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/entity/Order.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/entity/Order.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/META-INF/persistence.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/META-INF/persistence.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/app/orders.xhtml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/app/orders.xhtml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/panel/orders.xhtml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/panel/orders.xhtml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/panel/users.xhtml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/panel/users.xhtml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/app/favorites.xhtml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/app/favorites.xhtml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/index.xhtml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/index.xhtml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/login.xhtml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/login.xhtml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/product.xhtml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/product.xhtml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/register.xhtml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/register.xhtml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/resources/css/futuristic.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/resources/css/futuristic.css" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/webapp/template.xhtml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/template.xhtml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -333,7 +334,7 @@
       <workItem from="1780384830793" duration="1799000" />
       <workItem from="1780427773071" duration="5527000" />
       <workItem from="1780489825906" duration="6409000" />
-      <workItem from="1780656639604" duration="3064000" />
+      <workItem from="1780656639604" duration="4422000" />
     </task>
     <servers />
   </component>

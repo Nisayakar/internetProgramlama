@@ -9,12 +9,12 @@
 <div class="flex min-h-screen w-full">
         <div class="hidden lg:flex w-1/2 bg-surface-container-low relative overflow-hidden flex-col justify-between p-12">
             <div class="absolute inset-0 z-0">
-                <img alt="SaaS Registration Background" class="w-full h-full object-cover opacity-90 mix-blend-multiply" data-alt="A clean, abstract architectural or premium tech environment with smooth lines and soft lighting, conveying trust and modern design." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCXVErAzWN6cEM4jTQ5XZrOnbpj5-HdqaZDfolYEuRjboDv6YVJ_atfjwPLI6N7IAhz51WrexiZp3_jeV84jZdXb0l4BtUXgunpflPTvy1OPi3KUhKhMswv4Kx0eBivwNmbuyMt0ZCYUQjG6kiSvlIMM6GFPAjNZSY3foA3ZiRhwmoQpwGdq0UxkpEyIRN86Tf6pzVFcM9ISmODvBGXUSRrXK5aFfRdecZ-vXB3ZaSm27Rw5MCSqC0D4zqDdhe4m0oWL5VVUMWQ-A"/>
+                <img alt="SaaS Registration Background" class="w-full h-full object-cover opacity-90 mix-blend-multiply" data-alt="A clean, abstract architectural or premium tech environment with smooth lines and soft lighting, conveying trust and modern design." src="#{resource['images:auth-background.jpg']}"/>
                 <div class="absolute inset-0 bg-primary/10 backdrop-blur-[2px]"></div>
             </div>
             <div class="relative z-10">
                 <h:link outcome="/index.xhtml" styleClass="text-2xl font-bold tracking-tight text-primary flex items-center gap-2">
-                    <span class="material-symbols-outlined text-3xl">storefront</span>
+                    <i class="bi bi-shop text-3xl"></i>
                     CleanMarket
                 </h:link>
             </div>
@@ -28,7 +28,7 @@
             <div class="w-full max-w-md flex flex-col gap-8">
                 <div class="flex flex-col gap-2">
                     <h:link outcome="/index.xhtml" styleClass="lg:hidden text-2xl font-bold tracking-tight text-primary flex items-center gap-2 mb-6">
-                        <span class="material-symbols-outlined text-3xl">storefront</span>
+                        <i class="bi bi-shop text-3xl"></i>
                         CleanMarket
                     </h:link>
                     <h1 class="font-h2 text-h2 text-on-surface">Hesap Oluştur</h1>
@@ -44,7 +44,7 @@
                     <div class="flex flex-col gap-1.5">
                         <label class="font-label-sm text-label-sm text-on-surface">Ad Soyad</label>
                         <div class="relative">
-                            <span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-outline-variant text-sm">person</span>
+                            <i class="bi bi-person absolute left-3 top-1/2 -translate-y-1/2 text-outline-variant text-sm"></i>
                             <h:inputText value="#{userBean.newUser.fullName}" p:placeholder="Örn: Ayşe Yılmaz" required="true" styleClass="w-full bg-surface border border-outline-variant rounded-lg py-3 pl-10 pr-4 text-on-surface focus:ring-2 focus:ring-primary focus:border-primary focus:outline-none placeholder:text-outline-variant transition-all font-body-md"/>
                         </div>
                     </div>
@@ -52,7 +52,7 @@
                     <div class="flex flex-col gap-1.5">
                         <label class="font-label-sm text-label-sm text-on-surface">E-posta Adresi</label>
                         <div class="relative">
-                            <span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-outline-variant text-sm">mail</span>
+                            <i class="bi bi-envelope absolute left-3 top-1/2 -translate-y-1/2 text-outline-variant text-sm"></i>
                             <h:inputText value="#{userBean.newUser.email}" p:type="email" p:placeholder="ornek@sirket.com" required="true" styleClass="w-full bg-surface border border-outline-variant rounded-lg py-3 pl-10 pr-4 text-on-surface focus:ring-2 focus:ring-primary focus:border-primary focus:outline-none placeholder:text-outline-variant transition-all font-body-md"/>
                         </div>
                     </div>
@@ -60,7 +60,7 @@
                     <div class="flex flex-col gap-1.5">
                         <label class="font-label-sm text-label-sm text-on-surface">Şifre</label>
                         <div class="relative">
-                            <span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-outline-variant text-sm">lock</span>
+                            <i class="bi bi-lock absolute left-3 top-1/2 -translate-y-1/2 text-outline-variant text-sm"></i>
                             <h:inputSecret value="#{userBean.newUser.password}" p:placeholder="••••••••" required="true" styleClass="w-full bg-surface border border-outline-variant rounded-lg py-3 pl-10 pr-4 text-on-surface focus:ring-2 focus:ring-primary focus:border-primary focus:outline-none placeholder:text-outline-variant transition-all font-body-md"/>
                         </div>
                     </div>

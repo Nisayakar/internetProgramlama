@@ -26,10 +26,10 @@
                                 <img src="#{resource[productBean.detailProduct.imageResourcePath]}"
                                      alt="#{productBean.detailProduct.name}"
                                      class="max-h-[520px] w-full object-contain"
-                                     onerror="this.onerror=null; this.parentElement.innerHTML='&lt;span class=&quot;material-symbols-outlined text-5xl text-slate-400&quot;&gt;image_not_supported&lt;/span&gt;';"/>
+                                     onerror="this.onerror=null; this.parentElement.innerHTML='&lt;i class=&quot;bi bi-image-off text-5xl text-slate-400&quot;&gt;&lt;/i&gt;';"/>
                             </ui:fragment>
                             <ui:fragment rendered="#{empty productBean.detailProduct.imageUrl}">
-                                <span class="material-symbols-outlined text-5xl text-slate-400">image</span>
+                                <i class="bi bi-image text-5xl text-slate-400"></i>
                             </ui:fragment>
                         </div>
                     </div>

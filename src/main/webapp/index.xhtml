@@ -55,10 +55,10 @@
                                             <img src="#{resource[product.imageResourcePath]}"
                                                  alt="#{product.name}"
                                                  class="w-full h-full object-contain"
-                                                 onerror="this.onerror=null; this.parentElement.innerHTML='&lt;span class=&quot;material-symbols-outlined text-4xl text-slate-400&quot;&gt;image_not_supported&lt;/span&gt;';"/>
+                                                 onerror="this.onerror=null; this.parentElement.innerHTML='&lt;i class=&quot;bi bi-image-off text-4xl text-slate-400&quot;&gt;&lt;/i&gt;';"/>
                                         </ui:fragment>
                                         <ui:fragment rendered="#{empty product.imageUrl}">
-                                            <span class="material-symbols-outlined text-4xl text-slate-400">image</span>
+                                            <i class="bi bi-image text-4xl text-slate-400"></i>
                                         </ui:fragment>
                                     </div>
                                 </h:link>
