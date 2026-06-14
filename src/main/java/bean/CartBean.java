@@ -36,24 +36,21 @@ public class CartBean implements Serializable {
 
     public void addToCart(Long productId) {
         if (!sessionBean.isLoggedIn()) {
-            addMessage(FacesMessage.SEVERITY_ERROR, "Carte eklemek için giriş yapmalısınız.");
+            addMessage(FacesMessage.SEVERITY_ERROR, "Sepete eklemek için giriş yapmalısınız.");
             return;
         }
 
         Product product = cartFacade.findProduct(productId);
-        if (product == null || product.getStockQuantity() == null || product.getStockQuantity() <= 0) {
+        if (isUnavailable(product)) {
             addMessage(FacesMessage.SEVERITY_ERROR, "Bu ürün stokta yok.");
             return;
         }
 
         Cart activeCart = cartFacade.findActiveCart(sessionBean.getUser(), cart);
-        for (CartItem item : activeCart.getItems()) {
-            if (item.getProduct().getId().equals(product.getId())
-                    && item.getQuantity() >= product.getStockQuantity()) {
-                cart = activeCart;
-                addMessage(FacesMessage.SEVERITY_WARN, "Stok sınırına ulaşıldı.");
-                return;
-            }
+        if (hasReachedStockLimit(activeCart, product)) {
+            cart = activeCart;
+            addMessage(FacesMessage.SEVERITY_WARN, "Stok sınırına ulaşıldı.");
+            return;
         }
 
         cart = cartFacade.addProduct(sessionBean.getUser(), cart, productId);
@@ -88,6 +85,26 @@ public class CartBean implements Serializable {
             FacesContext.getCurrentInstance().getExternalContext().getRequestMap().put(CART_LOADED_REQUEST_KEY, true);
         }
         return cart;
+    }
+
+    private boolean isUnavailable(Product product) {
+        return product == null
+                || product.getStockQuantity() == null
+                || product.getStockQuantity() <= 0;
+    }
+
+    private boolean hasReachedStockLimit(Cart activeCart, Product product) {
+        for (CartItem item : activeCart.getItems()) {
+            if (isSameProduct(item, product) && item.getQuantity() >= product.getStockQuantity()) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    private boolean isSameProduct(CartItem item, Product product) {
+        return item.getProduct().getId().equals(product.getId());
     }
 
     private void addMessage(FacesMessage.Severity severity, String text) {

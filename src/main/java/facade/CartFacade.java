@@ -18,7 +18,7 @@ import java.util.List;
 @Stateless
 public class CartFacade extends AbstractFacade implements CartFacadeLocal {
 
-    // CRUD Operations
+    
     public Cart createTemporaryCart() {
         Cart temporaryCart = new Cart();
         temporaryCart.setItems(new ArrayList<>());
@@ -48,29 +48,16 @@ public class CartFacade extends AbstractFacade implements CartFacadeLocal {
 
         Cart cart = findActiveCart(user, currentCart);
         Product product = findProduct(productId);
-        if (product == null || product.getStockQuantity() == null || product.getStockQuantity() <= 0) {
+        if (!isAvailable(product)) {
             return null;
         }
 
-        for (CartItem item : cart.getItems()) {
-            if (item.getProduct().getId().equals(product.getId())) {
-                if (item.getQuantity() >= product.getStockQuantity()) {
-                    return cart;
-                }
-                item.setQuantity(item.getQuantity() + 1);
-                item.setSubtotal(item.getQuantity() * product.getCurrentPrice());
-                calculate(cart);
-                return update(cart);
-            }
+        CartItem existingItem = findItem(cart, product);
+        if (existingItem != null) {
+            return increaseQuantity(cart, existingItem, product);
         }
 
-        CartItem newItem = new CartItem();
-        newItem.setProduct(product);
-        newItem.setCart(cart);
-        newItem.setQuantity(1);
-        newItem.setSubtotal(product.getCurrentPrice());
-
-        cart.getItems().add(newItem);
+        cart.getItems().add(createItem(cart, product));
         calculate(cart);
         return update(cart);
     }
@@ -84,7 +71,7 @@ public class CartFacade extends AbstractFacade implements CartFacadeLocal {
             return removeItem(user, cart, item);
         }
         item.setQuantity(item.getQuantity() - 1);
-        item.setSubtotal(item.getQuantity() * item.getProduct().getCurrentPrice());
+        updateSubtotal(item);
         calculate(cart);
         return update(cart);
     }
@@ -96,13 +83,15 @@ public class CartFacade extends AbstractFacade implements CartFacadeLocal {
         return update(cart);
     }
 
-    // Query Operations
+    
     public int countItems(Cart cart) {
+        if (cart == null || cart.getItems() == null) {
+            return 0;
+        }
+
         int count = 0;
-        if (cart != null && cart.getItems() != null) {
-            for (CartItem item : cart.getItems()) {
-                count += item.getQuantity();
-            }
+        for (CartItem item : cart.getItems()) {
+            count += item.getQuantity();
         }
         return count;
     }
@@ -111,7 +100,7 @@ public class CartFacade extends AbstractFacade implements CartFacadeLocal {
         return this.entityManager.find(Product.class, productId);
     }
 
-    // Private Helpers
+   
     private Cart save(Cart cart) {
         this.entityManager.persist(cart);
         this.entityManager.flush();
@@ -126,6 +115,46 @@ public class CartFacade extends AbstractFacade implements CartFacadeLocal {
 
     private User findUser(Long userId) {
         return this.entityManager.find(User.class, userId);
+    }
+
+    private boolean isAvailable(Product product) {
+        return product != null
+                && product.getStockQuantity() != null
+                && product.getStockQuantity() > 0;
+    }
+
+    private CartItem findItem(Cart cart, Product product) {
+        for (CartItem item : cart.getItems()) {
+            if (item.getProduct().getId().equals(product.getId())) {
+                return item;
+            }
+        }
+
+        return null;
+    }
+
+    private Cart increaseQuantity(Cart cart, CartItem item, Product product) {
+        if (item.getQuantity() >= product.getStockQuantity()) {
+            return cart;
+        }
+
+        item.setQuantity(item.getQuantity() + 1);
+        updateSubtotal(item);
+        calculate(cart);
+        return update(cart);
+    }
+
+    private CartItem createItem(Cart cart, Product product) {
+        CartItem item = new CartItem();
+        item.setProduct(product);
+        item.setCart(cart);
+        item.setQuantity(1);
+        updateSubtotal(item);
+        return item;
+    }
+
+    private void updateSubtotal(CartItem item) {
+        item.setSubtotal(item.getQuantity() * item.getProduct().getCurrentPrice());
     }
 
     private Cart findByUserId(Long userId) {
@@ -147,13 +176,15 @@ public class CartFacade extends AbstractFacade implements CartFacadeLocal {
     }
 
     private void calculate(Cart cart) {
-        double total = 0.0;
-        if (cart != null && cart.getItems() != null) {
-            for (CartItem item : cart.getItems()) {
-                total += item.getSubtotal();
-            }
-            cart.setTotalAmount(total);
+        if (cart == null || cart.getItems() == null) {
+            return;
         }
+
+        double total = 0.0;
+        for (CartItem item : cart.getItems()) {
+            total += item.getSubtotal();
+        }
+        cart.setTotalAmount(total);
     }
 
     private Cart createUserCart(Long userId) {

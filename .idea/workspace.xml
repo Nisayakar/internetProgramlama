@@ -11,6 +11,12 @@
   <component name="ChangeListManager">
     <list default="true" id="748f1a8b-0544-4101-8195-0f5a3c137fa7" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/bean/CartBean.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/bean/CartBean.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/facade/CartFacade.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/facade/CartFacade.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/facade/OrderFacade.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/facade/OrderFacade.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/facade/ProductFacade.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/facade/ProductFacade.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/facade/UserFacade.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/facade/UserFacade.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/filter/SessionFilter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/filter/SessionFilter.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -332,7 +338,7 @@
       <workItem from="1781288685767" duration="1775000" />
       <workItem from="1781354661279" duration="2485000" />
       <workItem from="1781425730344" duration="529000" />
-      <workItem from="1781456514878" duration="1597000" />
+      <workItem from="1781456514878" duration="3130000" />
     </task>
     <servers />
   </component>

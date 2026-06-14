@@ -25,26 +25,14 @@ import java.util.UUID;
 @Stateless
 public class ProductFacade extends AbstractFacade implements ProductFacadeLocal {
 
-    // CRUD Operations
     public Product saveProduct(Product product, Long categoryId, Part uploadedImage) {
-        if (categoryId != null) {
-            Category selectedCategory = findCategory(categoryId);
-            product.setCategory(selectedCategory);
+        assignCategory(product, categoryId);
+
+        if (!saveUploadedImage(product, uploadedImage)) {
+            return null;
         }
 
-        if (uploadedImage != null && uploadedImage.getSize() > 0) {
-            try {
-                saveImage(product, uploadedImage);
-            } catch (IOException e) {
-                return null;
-            }
-        }
-
-        if (product.getId() == null) {
-            return save(product);
-        }
-
-        return update(product);
+        return saveOrUpdate(product);
     }
 
     public boolean deleteProduct(Product product) {
@@ -55,7 +43,7 @@ public class ProductFacade extends AbstractFacade implements ProductFacadeLocal 
         return true;
     }
 
-    // Query Operations
+   
     public Product find(Long id) {
         return this.entityManager.find(Product.class, id);
     }
@@ -69,7 +57,6 @@ public class ProductFacade extends AbstractFacade implements ProductFacadeLocal 
         return q.getResultList();
     }
 
-    // Private Helpers
     private Product save(Product product) {
         this.entityManager.persist(product);
         this.entityManager.flush();
@@ -89,6 +76,39 @@ public class ProductFacade extends AbstractFacade implements ProductFacadeLocal 
 
     private Category findCategory(Long categoryId) {
         return this.entityManager.find(Category.class, categoryId);
+    }
+
+    private void assignCategory(Product product, Long categoryId) {
+        if (categoryId == null) {
+            return;
+        }
+
+        product.setCategory(findCategory(categoryId));
+    }
+
+    private boolean saveUploadedImage(Product product, Part uploadedImage) {
+        if (!hasUploadedImage(uploadedImage)) {
+            return true;
+        }
+
+        try {
+            saveImage(product, uploadedImage);
+            return true;
+        } catch (IOException e) {
+            return false;
+        }
+    }
+
+    private boolean hasUploadedImage(Part uploadedImage) {
+        return uploadedImage != null && uploadedImage.getSize() > 0;
+    }
+
+    private Product saveOrUpdate(Product product) {
+        if (product.getId() == null) {
+            return save(product);
+        }
+
+        return update(product);
     }
 
     private boolean hasRelatedRecord(Long productId) {

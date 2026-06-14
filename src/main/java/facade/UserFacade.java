@@ -13,7 +13,7 @@ import java.util.List;
 @Stateless
 public class UserFacade extends AbstractFacade implements UserFacadeLocal {
 
-    // Authentication
+    
     public boolean register(User user) {
         if (isEmailInUse(user.getEmail(), null)) {
             return false;
@@ -34,7 +34,7 @@ public class UserFacade extends AbstractFacade implements UserFacadeLocal {
         return null;
     }
 
-    // Validation Operations
+
     private boolean isEmailInUse(String email, Long currentUserId) {
         CriteriaBuilder cb = this.entityManager.getCriteriaBuilder();
         CriteriaQuery<Long> cq = cb.createQuery(Long.class);
@@ -55,7 +55,7 @@ public class UserFacade extends AbstractFacade implements UserFacadeLocal {
         return count > 0;
     }
 
-    // Private Helpers
+  
     private User save(User user) {
         this.entityManager.persist(user);
         this.entityManager.flush();

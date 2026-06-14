@@ -25,18 +25,18 @@ public class OrderFacade extends AbstractFacade implements OrderFacadeLocal {
     @EJB
     private CartFacadeLocal cartFacade;
 
-    // CRUD Operations
+   
     public boolean completeOrder(User user) {
         if (user == null) {
             return false;
         }
 
         Cart cart = cartFacade.findActiveCart(user, null);
-        if (cart == null || cart.getItems() == null || cart.getItems().isEmpty()) {
+        if (isEmpty(cart)) {
             return false;
         }
 
-        if (findInsufficientStockProduct(user) != null) {
+        if (findInsufficientStockProduct(cart) != null) {
             return false;
         }
 
@@ -46,17 +46,17 @@ public class OrderFacade extends AbstractFacade implements OrderFacadeLocal {
 
     public void updateStatus(Long orderId, OrderStatus status) {
         Order order = find(orderId);
-        if (order != null) {
-            order.setStatus(status);
-            update(order);
+        if (order == null) {
+            return;
         }
+
+        order.setStatus(status);
+        update(order);
     }
 
     public boolean cancelUserOrder(User user, Long orderId) {
         Order order = find(orderId);
-        if (order == null || user == null
-                || order.getUser() == null
-                || !order.getUser().getId().equals(user.getId())) {
+        if (!belongsToUser(order, user)) {
             return false;
         }
 
@@ -71,29 +71,21 @@ public class OrderFacade extends AbstractFacade implements OrderFacadeLocal {
 
     public void deleteOrder(Long orderId) {
         Order order = find(orderId);
-        if (order != null) {
-            delete(order);
+        if (order == null) {
+            return;
         }
+
+        delete(order);
     }
 
-    // Query Operations
+   
     public Product findInsufficientStockProduct(User user) {
         if (user == null) {
             return null;
         }
 
         Cart cart = cartFacade.findActiveCart(user, null);
-        if (cart == null || cart.getItems() == null) {
-            return null;
-        }
-
-        for (CartItem item : cart.getItems()) {
-            Product product = this.entityManager.find(Product.class, item.getProduct().getId());
-            if (product == null || product.getStockQuantity() < item.getQuantity()) {
-                return item.getProduct();
-            }
-        }
-        return null;
+        return findInsufficientStockProduct(cart);
     }
 
     public List<Order> findAllOrders() {
@@ -120,7 +112,7 @@ public class OrderFacade extends AbstractFacade implements OrderFacadeLocal {
         return q.getResultList();
     }
 
-    // Validation Operations
+  
     public boolean canUserCancel(Order order) {
         return order != null && order.getStatus() == OrderStatus.PENDING_APPROVAL;
     }
@@ -129,7 +121,7 @@ public class OrderFacade extends AbstractFacade implements OrderFacadeLocal {
         return order != null && order.getStatus() != OrderStatus.CANCELLED;
     }
 
-    // Private Helpers
+    
     private Order update(Order order) {
         this.entityManager.merge(order);
         this.entityManager.flush();
@@ -145,6 +137,36 @@ public class OrderFacade extends AbstractFacade implements OrderFacadeLocal {
         return this.entityManager.find(Order.class, id);
     }
 
+    private boolean isEmpty(Cart cart) {
+        return cart == null || cart.getItems() == null || cart.getItems().isEmpty();
+    }
+
+    private boolean belongsToUser(Order order, User user) {
+        return order != null
+                && user != null
+                && order.getUser() != null
+                && order.getUser().getId().equals(user.getId());
+    }
+
+    private Product findInsufficientStockProduct(Cart cart) {
+        if (isEmpty(cart)) {
+            return null;
+        }
+
+        for (CartItem item : cart.getItems()) {
+            Product product = this.entityManager.find(Product.class, item.getProduct().getId());
+            if (hasInsufficientStock(product, item)) {
+                return item.getProduct();
+            }
+        }
+
+        return null;
+    }
+
+    private boolean hasInsufficientStock(Product product, CartItem item) {
+        return product == null || product.getStockQuantity() < item.getQuantity();
+    }
+
     private Order createFromCart(User user, Cart cart) {
         Order order = new Order();
         order.setUser(user);
@@ -153,24 +175,31 @@ public class OrderFacade extends AbstractFacade implements OrderFacadeLocal {
         order.setStatus(OrderStatus.PENDING_APPROVAL);
 
         for (CartItem item : cart.getItems()) {
-            Product product = this.entityManager.find(Product.class, item.getProduct().getId());
-            product.setStockQuantity(product.getStockQuantity() - item.getQuantity());
-
-            OrderDetail detail = new OrderDetail();
-            detail.setOrder(order);
-            detail.setProductName(product.getName());
-            detail.setPurchasePrice(product.getCurrentPrice());
-            detail.setQuantity(item.getQuantity());
-            order.getDetails().add(detail);
+            order.getDetails().add(createDetail(order, item));
         }
 
         this.entityManager.persist(order);
+        clearCart(cart);
+        this.entityManager.flush();
+        return order;
+    }
 
+    private OrderDetail createDetail(Order order, CartItem item) {
+        Product product = this.entityManager.find(Product.class, item.getProduct().getId());
+        product.setStockQuantity(product.getStockQuantity() - item.getQuantity());
+
+        OrderDetail detail = new OrderDetail();
+        detail.setOrder(order);
+        detail.setProductName(product.getName());
+        detail.setPurchasePrice(product.getCurrentPrice());
+        detail.setQuantity(item.getQuantity());
+        return detail;
+    }
+
+    private void clearCart(Cart cart) {
         Cart managedCart = this.entityManager.merge(cart);
         managedCart.getItems().clear();
         managedCart.setTotalAmount(0.0);
-        this.entityManager.flush();
-        return order;
     }
 }
 
