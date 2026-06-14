@@ -23,6 +23,27 @@
 
             <div class="mt-8">
                 <section>
+                    <div class="mb-6 rounded-xl border border-slate-200 bg-white p-4 shadow-sm">
+                        <div class="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+                            <div>
+                                <h2 class="text-lg font-black text-slate-950">Kategoriler</h2>
+                                <p class="text-sm text-slate-500">Ürünleri kategoriye göre filtreleyin.</p>
+                            </div>
+                            <div class="flex flex-wrap gap-2">
+                                <h:link outcome="/index.xhtml"
+                                        value="Tümü"
+                                        styleClass="#{empty param.categoryId ? 'rounded-lg bg-slate-950 px-4 py-2 text-sm font-bold text-white' : 'rounded-lg border border-slate-200 px-4 py-2 text-sm font-bold text-slate-700 hover:bg-slate-50'}"/>
+                                <ui:repeat value="#{categoryBean.allCategories}" var="category">
+                                    <h:link outcome="/index.xhtml"
+                                            value="#{category.name}"
+                                            styleClass="#{param.categoryId eq category.id ? 'rounded-lg bg-teal-700 px-4 py-2 text-sm font-bold text-white' : 'rounded-lg border border-slate-200 px-4 py-2 text-sm font-bold text-slate-700 hover:bg-slate-50'}">
+                                        <f:param name="categoryId" value="#{category.id}"/>
+                                    </h:link>
+                                </ui:repeat>
+                            </div>
+                        </div>
+                    </div>
+
                     <h:panelGroup rendered="#{empty productBean.allProducts}"
                                   layout="block"
                                   styleClass="rounded-lg border border-sky-200 bg-sky-50 px-5 py-4 text-sm font-semibold text-sky-800">
@@ -31,7 +52,9 @@
 
                     <div class="grid grid-cols-1 gap-6 w-full md:grid-cols-2 xl:grid-cols-3">
                         <ui:repeat value="#{productBean.allProducts}" var="product">
-                            <div class="flex flex-col bg-white rounded-2xl border border-slate-200 overflow-hidden hover:shadow-xl transition-shadow duration-300 h-full w-full min-w-0">
+                            <h:panelGroup layout="block"
+                                          rendered="#{empty param.categoryId or product.category.id eq param.categoryId}"
+                                          styleClass="flex flex-col bg-white rounded-2xl border border-slate-200 overflow-hidden hover:shadow-xl transition-shadow duration-300 h-full w-full min-w-0">
                                 <h:link outcome="/product.xhtml" styleClass="block">
                                     <f:param name="id" value="#{product.id}"/>
                                     <div class="relative w-full h-72 bg-white overflow-hidden shrink-0 flex items-center justify-center p-4">
@@ -65,13 +88,15 @@
                                         <span class="bg-slate-100 text-slate-600 px-2 py-1 rounded-md text-xs font-label-sm">Stok: #{product.stockQuantity}</span>
                                     </div>
 
+                                    <span class="w-fit rounded-full bg-teal-50 px-3 py-1 text-xs font-black text-teal-700">#{product.category.name}</span>
+
                                     <h:form>
                                         <h:commandButton action="#{cartBean.addToCart(product.id)}"
                                                          value="Sepete Ekle"
                                                          styleClass="w-full mt-3 bg-teal-700 text-white py-3 rounded-lg font-label-sm hover:bg-teal-800 transition-colors"/>
                                     </h:form>
                                 </div>
-                            </div>
+                            </h:panelGroup>
                         </ui:repeat>
                     </div>
                 </section>

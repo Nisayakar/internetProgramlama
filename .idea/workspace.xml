@@ -11,46 +11,6 @@
   <component name="ChangeListManager">
     <list default="true" id="748f1a8b-0544-4101-8195-0f5a3c137fa7" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/bean/AddressBean.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/bean/AddressBean.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/bean/CartBean.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/bean/CartBean.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/bean/CategoryBean.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/bean/CategoryBean.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/bean/CommentBean.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/bean/CommentBean.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/bean/FavoriteBean.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/bean/FavoriteBean.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/bean/OrderBean.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/bean/OrderBean.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/bean/ProductBean.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/bean/ProductBean.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/bean/UserBean.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/bean/UserBean.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/entity/Product.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/entity/Product.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/facade/AbstractFacade.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/facade/AbstractFacade.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/facade/AddressFacade.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/facade/AddressFacade.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/facade/CartFacade.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/facade/CartFacade.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/facade/CategoryFacade.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/facade/CategoryFacade.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/facade/CommentFacade.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/facade/CommentFacade.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/facade/FavoriteFacade.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/facade/FavoriteFacade.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/facade/OperationResult.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/facade/OrderFacade.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/facade/OrderFacade.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/facade/ProductFacade.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/facade/ProductFacade.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/facade/UserFacade.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/facade/UserFacade.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/facadeLocal/AddressFacadeLocal.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/facadeLocal/AddressFacadeLocal.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/facadeLocal/CartFacadeLocal.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/facadeLocal/CartFacadeLocal.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/facadeLocal/CategoryFacadeLocal.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/facadeLocal/CategoryFacadeLocal.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/facadeLocal/CommentFacadeLocal.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/facadeLocal/CommentFacadeLocal.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/facadeLocal/FavoriteFacadeLocal.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/facadeLocal/FavoriteFacadeLocal.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/facadeLocal/OrderFacadeLocal.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/facadeLocal/OrderFacadeLocal.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/facadeLocal/ProductFacadeLocal.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/facadeLocal/ProductFacadeLocal.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/facadeLocal/UserFacadeLocal.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/facadeLocal/UserFacadeLocal.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/app/addresses.xhtml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/app/addresses.xhtml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/app/cart.xhtml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/app/cart.xhtml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/app/favorites.xhtml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/app/favorites.xhtml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/app/orders.xhtml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/app/orders.xhtml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/index.xhtml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/index.xhtml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/login.xhtml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/login.xhtml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/panel/categories.xhtml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/panel/categories.xhtml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/panel/orders.xhtml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/panel/orders.xhtml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/panel/products.xhtml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/panel/products.xhtml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/panel/users.xhtml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/product.xhtml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/product.xhtml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/register.xhtml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/register.xhtml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/template.xhtml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/template.xhtml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -101,41 +61,41 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;DefaultHtmlFileTemplate&quot;: &quot;HTML File&quot;,
-    &quot;GlassFish Server.GlassFish 7.1.01.executor&quot;: &quot;Run&quot;,
-    &quot;GlassFish Server.MarketSistemi.executor&quot;: &quot;Run&quot;,
-    &quot;Maven.MarketSistemi [clean].executor&quot;: &quot;Run&quot;,
-    &quot;Maven.MarketSistemi [install].executor&quot;: &quot;Run&quot;,
-    &quot;Maven.MarketSistemi [package].executor&quot;: &quot;Run&quot;,
-    &quot;ModuleVcsDetector.initialDetectionPerformed&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.MCP Project settings loaded&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.typescript.service.memoryLimit.init&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
-    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
-    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/Users/PC/OneDrive/Masaüstü/internetProgramlama&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;project.structure.last.edited&quot;: &quot;Modules&quot;,
-    &quot;project.structure.proportion&quot;: &quot;0.15&quot;,
-    &quot;project.structure.side.proportion&quot;: &quot;0.2&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.keymap&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "DefaultHtmlFileTemplate": "HTML File",
+    "GlassFish Server.GlassFish 7.1.01.executor": "Run",
+    "GlassFish Server.MarketSistemi.executor": "Run",
+    "Maven.MarketSistemi [clean].executor": "Run",
+    "Maven.MarketSistemi [install].executor": "Run",
+    "Maven.MarketSistemi [package].executor": "Run",
+    "ModuleVcsDetector.initialDetectionPerformed": "true",
+    "RunOnceActivity.MCP Project settings loaded": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252": "true",
+    "RunOnceActivity.git.unshallow": "true",
+    "RunOnceActivity.typescript.service.memoryLimit.init": "true",
+    "git-widget-placeholder": "main",
+    "ignore.virus.scanning.warn.message": "true",
+    "kotlin-language-version-configured": "true",
+    "last_opened_file_path": "C:/Users/PC/internetProgramlama",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "project.structure.last.edited": "Modules",
+    "project.structure.proportion": "0.15",
+    "project.structure.side.proportion": "0.2",
+    "settings.editor.selected.configurable": "preferences.keymap",
+    "vue.rearranger.settings.migration": "true"
   },
-  &quot;keyToStringList&quot;: {
-    &quot;DatabaseDriversLRU&quot;: [
-      &quot;postgresql&quot;
+  "keyToStringList": {
+    "DatabaseDriversLRU": [
+      "postgresql"
     ]
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
       <recent name="C:\Users\PC\OneDrive\Masaüstü\VizeÖdev (2)\VizeÖdev\VizeÖdev\MarketSistemi\src\main\webapp\WEB-INF" />
@@ -372,6 +332,7 @@
       <workItem from="1781288685767" duration="1775000" />
       <workItem from="1781354661279" duration="2485000" />
       <workItem from="1781425730344" duration="529000" />
+      <workItem from="1781456514878" duration="1597000" />
     </task>
     <servers />
   </component>
