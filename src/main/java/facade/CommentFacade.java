@@ -16,54 +16,54 @@ import java.util.List;
 @Stateless
 public class CommentFacade extends AbstractFacade implements CommentFacadeLocal {
 
-    public OperationResult<Void> saveComment(User user, Long productId, Comment comment) {
+    public boolean saveComment(User user, Long productId, Comment comment) {
         if (user == null) {
-            return OperationResult.failure("Yorum yazmak için giriş yapmalısınız.");
+            return false;
         }
 
         Product product = findProduct(productId);
         if (product == null) {
-            return OperationResult.failure("Ürün bulunamadı.");
+            return false;
         }
 
         if (comment.getRating() == null || comment.getRating() < 1 || comment.getRating() > 5) {
-            return OperationResult.failure("Puan 1 ile 5 arasında olmalıdır.");
+            return false;
         }
 
         comment.setUser(user);
         comment.setProduct(product);
         comment.setCommentDate(LocalDateTime.now());
         save(comment);
-        return OperationResult.success("Commentunuz eklendi.", null);
+        return true;
     }
 
-    public OperationResult<Void> deleteComment(User user, boolean admin, Long commentId) {
+    public boolean deleteComment(User user, boolean admin, Long commentId) {
         Comment comment = find(commentId);
         if (comment == null || user == null) {
-            return OperationResult.failure("Yorum bulunamadı.");
+            return false;
         }
 
         boolean ownComment = comment.getUser() != null && comment.getUser().getId().equals(user.getId());
         if (!ownComment && !admin) {
-            return OperationResult.failure("Bu comment silinemez.");
+            return false;
         }
 
         delete(comment);
-        return OperationResult.success("Yorum silindi.", null);
+        return true;
     }
 
-    public Comment save(Comment comment) {
+    private Comment save(Comment comment) {
         this.entityManager.persist(comment);
         this.entityManager.flush();
         return comment;
     }
 
-    public void delete(Comment comment) {
+    private void delete(Comment comment) {
         Comment merged = this.entityManager.merge(comment);
         this.entityManager.remove(merged);
     }
 
-    public Comment find(Long id) {
+    private Comment find(Long id) {
         return this.entityManager.find(Comment.class, id);
     }
 
@@ -82,37 +82,6 @@ public class CommentFacade extends AbstractFacade implements CommentFacadeLocal 
         return q.getResultList();
     }
 
-    public List<Comment> findByUserId(Long userId) {
-        CriteriaBuilder cb = this.entityManager.getCriteriaBuilder();
-        CriteriaQuery<Comment> cq = cb.createQuery(Comment.class);
-        Root<Comment> root = cq.from(Comment.class);
-        cq.where(cb.equal(root.get("user").get("id"), userId));
-        CriteriaQuery<Comment> all = cq.select(root).orderBy(cb.desc(root.get("commentDate")));
-        TypedQuery<Comment> q = this.entityManager.createQuery(all);
-        return q.getResultList();
-    }
-
-    public boolean hasProductComment(Long productId) {
-        CriteriaBuilder cb = this.entityManager.getCriteriaBuilder();
-        CriteriaQuery<Long> cq = cb.createQuery(Long.class);
-        Root<Comment> root = cq.from(Comment.class);
-        cq.select(cb.count(root));
-        cq.where(cb.equal(root.get("product").get("id"), productId));
-        TypedQuery<Long> q = this.entityManager.createQuery(cq);
-        Long count = q.getSingleResult();
-        return count > 0;
-    }
-
-    public boolean hasUserComment(Long userId) {
-        CriteriaBuilder cb = this.entityManager.getCriteriaBuilder();
-        CriteriaQuery<Long> cq = cb.createQuery(Long.class);
-        Root<Comment> root = cq.from(Comment.class);
-        cq.select(cb.count(root));
-        cq.where(cb.equal(root.get("user").get("id"), userId));
-        TypedQuery<Long> q = this.entityManager.createQuery(cq);
-        Long count = q.getSingleResult();
-        return count > 0;
-    }
 }
 
 

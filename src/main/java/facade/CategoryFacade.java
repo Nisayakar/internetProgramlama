@@ -13,44 +13,39 @@ import java.util.List;
 @Stateless
 public class CategoryFacade extends AbstractFacade implements CategoryFacadeLocal {
 
-    public OperationResult<Void> saveCategory(Category category) {
+    public void saveCategory(Category category) {
         if (category.getId() == null) {
             save(category);
-            return OperationResult.success("Kategori eklendi.", null);
+            return;
         }
 
         update(category);
-        return OperationResult.success("Kategori güncellendi.", null);
     }
 
-    public OperationResult<Void> deleteCategory(Category category) {
+    public boolean deleteCategory(Category category) {
         if (hasProduct(category.getId())) {
-            return OperationResult.failure("Bu kategoriye ait ürün olduğu için silinemez.");
+            return false;
         }
 
         delete(category);
-        return OperationResult.success("Kategori silindi.", null);
+        return true;
     }
 
-    public Category save(Category category) {
+    private Category save(Category category) {
         this.entityManager.persist(category);
         this.entityManager.flush();
         return category;
     }
 
-    public Category update(Category category) {
+    private Category update(Category category) {
         this.entityManager.merge(category);
         this.entityManager.flush();
         return category;
     }
 
-    public void delete(Category category) {
+    private void delete(Category category) {
         Category merged = this.entityManager.merge(category);
         this.entityManager.remove(merged);
-    }
-
-    public Category find(Long id) {
-        return this.entityManager.find(Category.class, id);
     }
 
     public List<Category> findAllCategories() {
@@ -62,7 +57,7 @@ public class CategoryFacade extends AbstractFacade implements CategoryFacadeLoca
         return q.getResultList();
     }
 
-    public boolean hasProduct(Long categoryId) {
+    private boolean hasProduct(Long categoryId) {
         CriteriaBuilder cb = this.entityManager.getCriteriaBuilder();
         CriteriaQuery<Long> cq = cb.createQuery(Long.class);
         Root<Product> root = cq.from(Product.class);

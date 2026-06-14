@@ -1,10 +1,12 @@
 package bean;
 
 import entity.Order;
+import entity.Product;
 import enums.OrderStatus;
-import facade.OperationResult;
 import facadeLocal.OrderFacadeLocal;
 import jakarta.ejb.EJB;
+import jakarta.faces.application.FacesMessage;
+import jakarta.faces.context.FacesContext;
 import jakarta.faces.view.ViewScoped;
 import jakarta.inject.Inject;
 import jakarta.inject.Named;
@@ -27,19 +29,24 @@ public class OrderBean implements Serializable {
 
     private List<Order> orderHistory;
     private List<Order> allOrders;
-    private String message;
 
     public String completeOrder() {
         if (!sessionBean.isLoggedIn()) {
             return "/login.xhtml?faces-redirect=true";
         }
 
-        OperationResult<Void> result = orderFacade.completeOrder(sessionBean.getUser());
-        message = result.getMessage();
-        if (!result.isSuccess()) {
+        Product stockProblem = orderFacade.findInsufficientStockProduct(sessionBean.getUser());
+        if (stockProblem != null) {
+            addMessage(FacesMessage.SEVERITY_ERROR, "Stok yetersiz: " + stockProblem.getName());
             return null;
         }
 
+        if (!orderFacade.completeOrder(sessionBean.getUser())) {
+            addMessage(FacesMessage.SEVERITY_ERROR, "Cartiniz boş.");
+            return null;
+        }
+
+        addMessage(FacesMessage.SEVERITY_INFO, "Siparişiniz alındı.");
         orderHistory = null;
         allOrders = null;
         return null;
@@ -62,11 +69,12 @@ public class OrderBean implements Serializable {
     }
 
     public String cancelUserOrder(Long orderId) {
-        OperationResult<Void> result = orderFacade.cancelUserOrder(sessionBean.getUser(), orderId);
-        if (result.isSuccess()) {
-            orderHistory = null;
+        if (!orderFacade.cancelUserOrder(sessionBean.getUser(), orderId)) {
+            addMessage(FacesMessage.SEVERITY_ERROR, "Sipariş bulunamadı veya artık iptal edilemez.");
+            return null;
         }
-        message = result.getMessage();
+        orderHistory = null;
+        addMessage(FacesMessage.SEVERITY_INFO, "Sipariş iptal edildi.");
         return null;
     }
 
@@ -78,23 +86,19 @@ public class OrderBean implements Serializable {
         return orderFacade.canAdminUpdateStatus(order);
     }
 
-    public String updateStatus(Long orderId, OrderStatus status) {
-        return updateStatus(orderId, status, "Sipariş durumu güncellendi.");
-    }
-
     private String updateStatus(Long orderId, OrderStatus status, String successMessage) {
-        OperationResult<Void> result = orderFacade.updateStatus(orderId, status, successMessage);
+        orderFacade.updateStatus(orderId, status);
         allOrders = null;
         orderHistory = null;
-        message = result.getMessage();
+        addMessage(FacesMessage.SEVERITY_INFO, successMessage);
         return ADMIN_ORDERS_REDIRECT;
     }
 
     public String delete(Long orderId) {
-        OperationResult<Void> result = orderFacade.deleteOrder(orderId);
+        orderFacade.deleteOrder(orderId);
         allOrders = null;
         orderHistory = null;
-        message = result.getMessage();
+        addMessage(FacesMessage.SEVERITY_INFO, "Sipariş silindi.");
         return ADMIN_ORDERS_REDIRECT;
     }
 
@@ -112,32 +116,12 @@ public class OrderBean implements Serializable {
         return allOrders;
     }
 
-    public int getWaitingOrderCount() {
-        return orderFacade.countWaitingOrders(getAllOrders());
-    }
-
-    public int getOrderCount() {
-        return getAllOrders().size();
-    }
-
-    public int getDeliveredOrderCount() {
-        return orderFacade.countDeliveredOrders(getAllOrders());
-    }
-
-    public double getTotalOrderAmount() {
-        return orderFacade.calculateOrderTotal(getAllOrders());
-    }
-
     public boolean isNoOrders() {
         return getAllOrders().isEmpty();
     }
 
-    public String getMessage() {
-        return message;
-    }
-
-    public void setMessage(String message) {
-        this.message = message;
+    private void addMessage(FacesMessage.Severity severity, String text) {
+        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(severity, text, text));
     }
 }
 

@@ -18,6 +18,7 @@ import java.util.List;
 @Stateless
 public class CartFacade extends AbstractFacade implements CartFacadeLocal {
 
+    // CRUD Operations
     public Cart createTemporaryCart() {
         Cart temporaryCart = new Cart();
         temporaryCart.setItems(new ArrayList<>());
@@ -40,26 +41,26 @@ public class CartFacade extends AbstractFacade implements CartFacadeLocal {
         return cart;
     }
 
-    public OperationResult<Cart> addProduct(User user, Cart currentCart, Long productId) {
+    public Cart addProduct(User user, Cart currentCart, Long productId) {
         if (user == null) {
-            return OperationResult.failure("Carte eklemek için giriş yapmalısınız.");
+            return null;
         }
 
         Cart cart = findActiveCart(user, currentCart);
         Product product = findProduct(productId);
         if (product == null || product.getStockQuantity() == null || product.getStockQuantity() <= 0) {
-            return OperationResult.failure("Bu ürün stokta yok.");
+            return null;
         }
 
         for (CartItem item : cart.getItems()) {
             if (item.getProduct().getId().equals(product.getId())) {
                 if (item.getQuantity() >= product.getStockQuantity()) {
-                    return OperationResult.success("Stok sınırına ulaşıldı.", cart);
+                    return cart;
                 }
                 item.setQuantity(item.getQuantity() + 1);
                 item.setSubtotal(item.getQuantity() * product.getCurrentPrice());
                 calculate(cart);
-                return OperationResult.success("Sepet güncellendi.", update(cart));
+                return update(cart);
             }
         }
 
@@ -71,12 +72,12 @@ public class CartFacade extends AbstractFacade implements CartFacadeLocal {
 
         cart.getItems().add(newItem);
         calculate(cart);
-        return OperationResult.success("Ürün sepete eklendi.", update(cart));
+        return update(cart);
     }
 
-    public OperationResult<Cart> decreaseQuantity(User user, Cart currentCart, CartItem item) {
+    public Cart decreaseQuantity(User user, Cart currentCart, CartItem item) {
         if (item == null) {
-            return OperationResult.success(null, findActiveCart(user, currentCart));
+            return findActiveCart(user, currentCart);
         }
         Cart cart = findActiveCart(user, currentCart);
         if (item.getQuantity() <= 1) {
@@ -85,26 +86,17 @@ public class CartFacade extends AbstractFacade implements CartFacadeLocal {
         item.setQuantity(item.getQuantity() - 1);
         item.setSubtotal(item.getQuantity() * item.getProduct().getCurrentPrice());
         calculate(cart);
-        return OperationResult.success("Sepet güncellendi.", update(cart));
+        return update(cart);
     }
 
-    public OperationResult<Cart> removeItem(User user, Cart currentCart, CartItem item) {
+    public Cart removeItem(User user, Cart currentCart, CartItem item) {
         Cart cart = findActiveCart(user, currentCart);
         cart.getItems().remove(item);
         calculate(cart);
-        return OperationResult.success("Ürün sepetten çıkarıldı.", update(cart));
+        return update(cart);
     }
 
-    public OperationResult<Cart> clearCart(User user, Cart currentCart) {
-        Cart cart = findActiveCart(user, currentCart);
-        cart.getItems().clear();
-        cart.setTotalAmount(0.0);
-        if (cart.getId() != null) {
-            cart = update(cart);
-        }
-        return OperationResult.success(null, cart);
-    }
-
+    // Query Operations
     public int countItems(Cart cart) {
         int count = 0;
         if (cart != null && cart.getItems() != null) {
@@ -115,47 +107,28 @@ public class CartFacade extends AbstractFacade implements CartFacadeLocal {
         return count;
     }
 
-    public Cart save(Cart cart) {
+    public Product findProduct(Long productId) {
+        return this.entityManager.find(Product.class, productId);
+    }
+
+    // Private Helpers
+    private Cart save(Cart cart) {
         this.entityManager.persist(cart);
         this.entityManager.flush();
         return cart;
     }
 
-    public Cart update(Cart cart) {
+    private Cart update(Cart cart) {
         Cart merged = this.entityManager.merge(cart);
         this.entityManager.flush();
         return merged;
     }
 
-    public void delete(Cart cart) {
-        Cart merged = this.entityManager.merge(cart);
-        this.entityManager.remove(merged);
-    }
-
-    public Cart find(Long id) {
-        return this.entityManager.find(Cart.class, id);
-    }
-
-    public Product findProduct(Long productId) {
-        return this.entityManager.find(Product.class, productId);
-    }
-
-    public User findUser(Long userId) {
+    private User findUser(Long userId) {
         return this.entityManager.find(User.class, userId);
     }
 
-    public List<Cart> findAllCarts() {
-        CriteriaBuilder cb = this.entityManager.getCriteriaBuilder();
-        CriteriaQuery<Cart> cq = cb.createQuery(Cart.class);
-        Root<Cart> root = cq.from(Cart.class);
-        root.fetch("items", JoinType.LEFT);
-        cq.distinct(true);
-        CriteriaQuery<Cart> all = cq.select(root).orderBy(cb.asc(root.get("id")));
-        TypedQuery<Cart> q = this.entityManager.createQuery(all);
-        return q.getResultList();
-    }
-
-    public Cart findByUserId(Long userId) {
+    private Cart findByUserId(Long userId) {
         CriteriaBuilder cb = this.entityManager.getCriteriaBuilder();
         CriteriaQuery<Cart> cq = cb.createQuery(Cart.class);
         Root<Cart> root = cq.from(Cart.class);
@@ -169,31 +142,8 @@ public class CartFacade extends AbstractFacade implements CartFacadeLocal {
 
         if (found.isEmpty()) {
             return null;
-        } else {
-            return found.get(0);
         }
-    }
-
-    public boolean hasProductItem(Long productId) {
-        CriteriaBuilder cb = this.entityManager.getCriteriaBuilder();
-        CriteriaQuery<Long> cq = cb.createQuery(Long.class);
-        Root<CartItem> root = cq.from(CartItem.class);
-        cq.select(cb.count(root));
-        cq.where(cb.equal(root.get("product").get("id"), productId));
-        TypedQuery<Long> q = this.entityManager.createQuery(cq);
-        Long count = q.getSingleResult();
-        return count > 0;
-    }
-
-    public boolean hasUserCart(Long userId) {
-        CriteriaBuilder cb = this.entityManager.getCriteriaBuilder();
-        CriteriaQuery<Long> cq = cb.createQuery(Long.class);
-        Root<Cart> root = cq.from(Cart.class);
-        cq.select(cb.count(root));
-        cq.where(cb.equal(root.get("user").get("id"), userId));
-        TypedQuery<Long> q = this.entityManager.createQuery(cq);
-        Long count = q.getSingleResult();
-        return count > 0;
+        return found.get(0);
     }
 
     private void calculate(Cart cart) {

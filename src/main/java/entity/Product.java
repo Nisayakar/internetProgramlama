@@ -21,9 +21,6 @@ public class Product implements Serializable {
     @Column(name = "currentprice", nullable = false)
     private Double currentPrice;
 
-    @Column(name = "oldprice")
-    private Double oldPrice;
-
     @Column(name = "stockquantity", nullable = false)
     private Integer stockQuantity;
 
@@ -68,14 +65,6 @@ public class Product implements Serializable {
 
     public void setCurrentPrice(Double currentPrice) {
         this.currentPrice = currentPrice;
-    }
-
-    public Double getOldPrice() {
-        return oldPrice;
-    }
-
-    public void setOldPrice(Double oldPrice) {
-        this.oldPrice = oldPrice;
     }
 
     public Integer getStockQuantity() {

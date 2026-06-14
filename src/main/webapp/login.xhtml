@@ -37,9 +37,6 @@
 
                 <h:form styleClass="flex flex-col gap-5">
                     <h:messages globalOnly="true" layout="list" styleClass="rounded-lg border border-error-container bg-error-container px-4 py-3 text-sm font-semibold text-on-error-container"/>
-                    <h:panelGroup rendered="#{not empty userBean.message}" layout="block" styleClass="rounded-lg border border-error-container bg-error-container px-4 py-3 text-sm font-semibold text-on-error-container">
-                        #{userBean.message}
-                    </h:panelGroup>
 
                     <div class="flex flex-col gap-1.5">
                         <label class="font-label-sm text-label-sm text-on-surface">E-posta Adresi</label>

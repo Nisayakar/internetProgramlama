@@ -25,115 +25,75 @@ public class OrderFacade extends AbstractFacade implements OrderFacadeLocal {
     @EJB
     private CartFacadeLocal cartFacade;
 
-    public OperationResult<Void> completeOrder(User user) {
+    // CRUD Operations
+    public boolean completeOrder(User user) {
         if (user == null) {
-            return OperationResult.failure("/login.xhtml?faces-redirect=true");
+            return false;
         }
 
         Cart cart = cartFacade.findActiveCart(user, null);
         if (cart == null || cart.getItems() == null || cart.getItems().isEmpty()) {
-            return OperationResult.failure("Cartiniz boş.");
+            return false;
         }
 
-        try {
-            createFromCart(user, cart);
-        } catch (RuntimeException e) {
-            return OperationResult.failure(e.getMessage());
+        if (findInsufficientStockProduct(user) != null) {
+            return false;
         }
-        return OperationResult.success("Siparişiniz alındı.", null);
+
+        createFromCart(user, cart);
+        return true;
     }
 
-    public OperationResult<Void> updateStatus(Long orderId, OrderStatus status, String successMessage) {
+    public void updateStatus(Long orderId, OrderStatus status) {
         Order order = find(orderId);
         if (order != null) {
             order.setStatus(status);
             update(order);
         }
-        return OperationResult.success(successMessage, null);
     }
 
-    public OperationResult<Void> cancelUserOrder(User user, Long orderId) {
+    public boolean cancelUserOrder(User user, Long orderId) {
         Order order = find(orderId);
         if (order == null || user == null
                 || order.getUser() == null
                 || !order.getUser().getId().equals(user.getId())) {
-            return OperationResult.failure("Sipariş bulunamadı.");
+            return false;
         }
 
         if (!canUserCancel(order)) {
-            return OperationResult.failure("Bu sipariş artık iptal edilemez.");
+            return false;
         }
 
         order.setStatus(OrderStatus.CANCELLED);
         update(order);
-        return OperationResult.success("Sipariş iptal edildi.", null);
+        return true;
     }
 
-    public OperationResult<Void> deleteOrder(Long orderId) {
+    public void deleteOrder(Long orderId) {
         Order order = find(orderId);
         if (order != null) {
             delete(order);
         }
-        return OperationResult.success("Sipariş silindi.", null);
     }
 
-    public boolean canUserCancel(Order order) {
-        return order != null && order.getStatus() == OrderStatus.PENDING_APPROVAL;
-    }
+    // Query Operations
+    public Product findInsufficientStockProduct(User user) {
+        if (user == null) {
+            return null;
+        }
 
-    public boolean canAdminUpdateStatus(Order order) {
-        return order != null && order.getStatus() != OrderStatus.CANCELLED;
-    }
+        Cart cart = cartFacade.findActiveCart(user, null);
+        if (cart == null || cart.getItems() == null) {
+            return null;
+        }
 
-    public int countWaitingOrders(List<Order> orders) {
-        int count = 0;
-        for (Order order : orders) {
-            if (order.getStatus() == OrderStatus.PENDING_APPROVAL || order.getStatus() == OrderStatus.PREPARING) {
-                count++;
+        for (CartItem item : cart.getItems()) {
+            Product product = this.entityManager.find(Product.class, item.getProduct().getId());
+            if (product == null || product.getStockQuantity() < item.getQuantity()) {
+                return item.getProduct();
             }
         }
-        return count;
-    }
-
-    public int countDeliveredOrders(List<Order> orders) {
-        int count = 0;
-        for (Order order : orders) {
-            if (order.getStatus() == OrderStatus.DELIVERED) {
-                count++;
-            }
-        }
-        return count;
-    }
-
-    public double calculateOrderTotal(List<Order> orders) {
-        double total = 0.0;
-        for (Order order : orders) {
-            if (order.getTotalAmount() != null) {
-                total += order.getTotalAmount();
-            }
-        }
-        return total;
-    }
-
-    public Order save(Order order) {
-        this.entityManager.persist(order);
-        this.entityManager.flush();
-        return order;
-    }
-
-    public Order update(Order order) {
-        this.entityManager.merge(order);
-        this.entityManager.flush();
-        return order;
-    }
-
-    public void delete(Order order) {
-        Order merged = this.entityManager.merge(order);
-        this.entityManager.remove(merged);
-    }
-
-    public Order find(Long id) {
-        return this.entityManager.find(Order.class, id);
+        return null;
     }
 
     public List<Order> findAllOrders() {
@@ -160,15 +120,29 @@ public class OrderFacade extends AbstractFacade implements OrderFacadeLocal {
         return q.getResultList();
     }
 
-    public boolean hasUserOrder(Long userId) {
-        CriteriaBuilder cb = this.entityManager.getCriteriaBuilder();
-        CriteriaQuery<Long> cq = cb.createQuery(Long.class);
-        Root<Order> root = cq.from(Order.class);
-        cq.select(cb.count(root));
-        cq.where(cb.equal(root.get("user").get("id"), userId));
-        TypedQuery<Long> q = this.entityManager.createQuery(cq);
-        Long count = q.getSingleResult();
-        return count > 0;
+    // Validation Operations
+    public boolean canUserCancel(Order order) {
+        return order != null && order.getStatus() == OrderStatus.PENDING_APPROVAL;
+    }
+
+    public boolean canAdminUpdateStatus(Order order) {
+        return order != null && order.getStatus() != OrderStatus.CANCELLED;
+    }
+
+    // Private Helpers
+    private Order update(Order order) {
+        this.entityManager.merge(order);
+        this.entityManager.flush();
+        return order;
+    }
+
+    private void delete(Order order) {
+        Order merged = this.entityManager.merge(order);
+        this.entityManager.remove(merged);
+    }
+
+    private Order find(Long id) {
+        return this.entityManager.find(Order.class, id);
     }
 
     private Order createFromCart(User user, Cart cart) {
@@ -180,10 +154,6 @@ public class OrderFacade extends AbstractFacade implements OrderFacadeLocal {
 
         for (CartItem item : cart.getItems()) {
             Product product = this.entityManager.find(Product.class, item.getProduct().getId());
-            if (product == null || product.getStockQuantity() < item.getQuantity()) {
-                throw new RuntimeException("Stok yetersiz: " + item.getProduct().getName());
-            }
-
             product.setStockQuantity(product.getStockQuantity() - item.getQuantity());
 
             OrderDetail detail = new OrderDetail();

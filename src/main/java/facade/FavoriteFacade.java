@@ -16,20 +16,20 @@ import java.util.List;
 @Stateless
 public class FavoriteFacade extends AbstractFacade implements FavoriteFacadeLocal {
 
-    public OperationResult<Void> toggleFavorite(User user, Long productId) {
+    public boolean toggleFavorite(User user, Long productId) {
         if (user == null) {
-            return OperationResult.failure("Favoritelere eklemek için giriş yapmalısınız.");
+            return false;
         }
 
         Favorite existing = findByUserAndProduct(user.getId(), productId);
         if (existing != null) {
             delete(existing);
-            return OperationResult.success("Ürün favorilerden çıkarıldı.", null);
+            return true;
         }
 
         Product product = findProduct(productId);
         if (product == null) {
-            return OperationResult.failure("Ürün bulunamadı.");
+            return false;
         }
 
         Favorite favorite = new Favorite();
@@ -37,41 +37,41 @@ public class FavoriteFacade extends AbstractFacade implements FavoriteFacadeLoca
         favorite.setProduct(product);
         favorite.setCreatedAt(LocalDateTime.now());
         save(favorite);
-        return OperationResult.success("Ürün favorilere eklendi.", null);
+        return true;
     }
 
-    public OperationResult<Void> removeFavorite(User user, Long favoriteId) {
+    public boolean removeFavorite(User user, Long favoriteId) {
         Favorite favorite = find(favoriteId);
         if (favorite == null || user == null
                 || favorite.getUser() == null
                 || !favorite.getUser().getId().equals(user.getId())) {
-            return OperationResult.failure("Favori kaydı bulunamadı.");
+            return false;
         }
 
         delete(favorite);
-        return OperationResult.success("Ürün favorilerden çıkarıldı.", null);
+        return true;
     }
 
-    public Favorite save(Favorite favorite) {
+    private Favorite save(Favorite favorite) {
         this.entityManager.persist(favorite);
         this.entityManager.flush();
         return favorite;
     }
 
-    public void delete(Favorite favorite) {
+    private void delete(Favorite favorite) {
         Favorite merged = this.entityManager.merge(favorite);
         this.entityManager.remove(merged);
     }
 
-    public Favorite find(Long id) {
+    private Favorite find(Long id) {
         return this.entityManager.find(Favorite.class, id);
     }
 
-    public Product findProduct(Long productId) {
+    private Product findProduct(Long productId) {
         return this.entityManager.find(Product.class, productId);
     }
 
-    public Favorite findByUserAndProduct(Long userId, Long productId) {
+    private Favorite findByUserAndProduct(Long userId, Long productId) {
         CriteriaBuilder cb = this.entityManager.getCriteriaBuilder();
         CriteriaQuery<Favorite> cq = cb.createQuery(Favorite.class);
         Root<Favorite> root = cq.from(Favorite.class);
@@ -86,9 +86,8 @@ public class FavoriteFacade extends AbstractFacade implements FavoriteFacadeLoca
 
         if (found.isEmpty()) {
             return null;
-        } else {
-            return found.get(0);
         }
+        return found.get(0);
     }
 
     public List<Favorite> findByUserId(Long userId) {
@@ -102,34 +101,12 @@ public class FavoriteFacade extends AbstractFacade implements FavoriteFacadeLoca
         return q.getResultList();
     }
 
-    public boolean isFavorite(Long userId, Long productId) {
+    private boolean isFavorite(Long userId, Long productId) {
         return findByUserAndProduct(userId, productId) != null;
     }
 
     public boolean isFavorite(User user, Long productId) {
         return user != null && isFavorite(user.getId(), productId);
-    }
-
-    public boolean hasFavoriteRecord(Long productId) {
-        CriteriaBuilder cb = this.entityManager.getCriteriaBuilder();
-        CriteriaQuery<Long> cq = cb.createQuery(Long.class);
-        Root<Favorite> root = cq.from(Favorite.class);
-        cq.select(cb.count(root));
-        cq.where(cb.equal(root.get("product").get("id"), productId));
-        TypedQuery<Long> q = this.entityManager.createQuery(cq);
-        Long count = q.getSingleResult();
-        return count > 0;
-    }
-
-    public boolean hasUserFavorite(Long userId) {
-        CriteriaBuilder cb = this.entityManager.getCriteriaBuilder();
-        CriteriaQuery<Long> cq = cb.createQuery(Long.class);
-        Root<Favorite> root = cq.from(Favorite.class);
-        cq.select(cb.count(root));
-        cq.where(cb.equal(root.get("user").get("id"), userId));
-        TypedQuery<Long> q = this.entityManager.createQuery(cq);
-        Long count = q.getSingleResult();
-        return count > 0;
     }
 }
 

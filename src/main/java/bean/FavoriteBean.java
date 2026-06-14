@@ -1,9 +1,10 @@
 package bean;
 
 import entity.Favorite;
-import facade.OperationResult;
 import facadeLocal.FavoriteFacadeLocal;
 import jakarta.ejb.EJB;
+import jakarta.faces.application.FacesMessage;
+import jakarta.faces.context.FacesContext;
 import jakarta.faces.view.ViewScoped;
 import jakarta.inject.Inject;
 import jakarta.inject.Named;
@@ -23,23 +24,29 @@ public class FavoriteBean implements Serializable {
     private SessionBean sessionBean;
 
     private List<Favorite> myFavorites;
-    private String message;
 
     public void toggleFavorite(Long productId) {
         if (!sessionBean.isLoggedIn()) {
-            message = "Favoritelere eklemek için giriş yapmalısınız.";
+            addMessage(FacesMessage.SEVERITY_ERROR, "Favoritelere eklemek için giriş yapmalısınız.");
             return;
         }
 
-        OperationResult<Void> result = favoriteFacade.toggleFavorite(sessionBean.getUser(), productId);
-        message = result.getMessage();
+        boolean favorite = favoriteFacade.isFavorite(sessionBean.getUser(), productId);
+        if (!favoriteFacade.toggleFavorite(sessionBean.getUser(), productId)) {
+            addMessage(FacesMessage.SEVERITY_ERROR, "Ürün bulunamadı.");
+            return;
+        }
+        addMessage(FacesMessage.SEVERITY_INFO, favorite ? "Ürün favorilerden çıkarıldı." : "Ürün favorilere eklendi.");
         myFavorites = null;
     }
 
     public void removeFavorite(Long favoriteId) {
-        OperationResult<Void> result = favoriteFacade.removeFavorite(sessionBean.getUser(), favoriteId);
+        if (!favoriteFacade.removeFavorite(sessionBean.getUser(), favoriteId)) {
+            addMessage(FacesMessage.SEVERITY_ERROR, "Favori kaydı bulunamadı.");
+            return;
+        }
         myFavorites = null;
-        message = result.getMessage();
+        addMessage(FacesMessage.SEVERITY_INFO, "Ürün favorilerden çıkarıldı.");
     }
 
     public boolean isFavorite(Long productId) {
@@ -58,20 +65,12 @@ public class FavoriteBean implements Serializable {
         return myFavorites;
     }
 
-    public void setMyFavorites(List<Favorite> myFavorites) {
-        this.myFavorites = myFavorites;
-    }
-
     public boolean isNoFavorites() {
         return getMyFavorites() == null || getMyFavorites().isEmpty();
     }
 
-    public String getMessage() {
-        return message;
-    }
-
-    public void setMessage(String message) {
-        this.message = message;
+    private void addMessage(FacesMessage.Severity severity, String text) {
+        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(severity, text, text));
     }
 }
 

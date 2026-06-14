@@ -1,9 +1,11 @@
 package bean;
 
 import entity.Comment;
-import facade.OperationResult;
+import entity.Product;
 import facadeLocal.CommentFacadeLocal;
 import jakarta.ejb.EJB;
+import jakarta.faces.application.FacesMessage;
+import jakarta.faces.context.FacesContext;
 import jakarta.faces.view.ViewScoped;
 import jakarta.inject.Inject;
 import jakarta.inject.Named;
@@ -25,24 +27,37 @@ public class CommentBean implements Serializable {
     private Comment comment;
     private Long productId;
     private List<Comment> comments;
-    private String message;
 
     public void save() {
-        OperationResult<Void> result = commentFacade.saveComment(sessionBean.getUser(), productId, getComment());
-        message = result.getMessage();
-        if (!result.isSuccess()) {
+        if (!sessionBean.isLoggedIn()) {
+            addMessage(FacesMessage.SEVERITY_ERROR, "Yorum yazmak için giriş yapmalısınız.");
             return;
         }
+
+        Product product = commentFacade.findProduct(productId);
+        if (product == null) {
+            addMessage(FacesMessage.SEVERITY_ERROR, "Ürün bulunamadı.");
+            return;
+        }
+
+        if (getComment().getRating() == null || getComment().getRating() < 1 || getComment().getRating() > 5) {
+            addMessage(FacesMessage.SEVERITY_ERROR, "Puan 1 ile 5 arasında olmalıdır.");
+            return;
+        }
+
+        commentFacade.saveComment(sessionBean.getUser(), productId, getComment());
+        addMessage(FacesMessage.SEVERITY_INFO, "Commentunuz eklendi.");
         comment = new Comment();
         comments = null;
     }
 
     public void delete(Long commentId) {
-        OperationResult<Void> result = commentFacade.deleteComment(sessionBean.getUser(), sessionBean.isAdmin(), commentId);
-        if (result.isSuccess()) {
-            comments = null;
+        if (!commentFacade.deleteComment(sessionBean.getUser(), sessionBean.isAdmin(), commentId)) {
+            addMessage(FacesMessage.SEVERITY_ERROR, "Yorum bulunamadı veya bu comment silinemez.");
+            return;
         }
-        message = result.getMessage();
+        comments = null;
+        addMessage(FacesMessage.SEVERITY_INFO, "Yorum silindi.");
     }
 
     public Comment getComment() {
@@ -51,10 +66,6 @@ public class CommentBean implements Serializable {
             comment.setRating(5);
         }
         return comment;
-    }
-
-    public void setComment(Comment comment) {
-        this.comment = comment;
     }
 
     public Long getProductId() {
@@ -66,26 +77,18 @@ public class CommentBean implements Serializable {
     }
 
     public List<Comment> getComments() {
-        if (productId != null) {
+        if (productId != null && comments == null) {
             comments = commentFacade.findByProductId(productId);
         }
         return comments;
-    }
-
-    public void setComments(List<Comment> comments) {
-        this.comments = comments;
     }
 
     public boolean isNoComments() {
         return getComments() == null || getComments().isEmpty();
     }
 
-    public String getMessage() {
-        return message;
-    }
-
-    public void setMessage(String message) {
-        this.message = message;
+    private void addMessage(FacesMessage.Severity severity, String text) {
+        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(severity, text, text));
     }
 }
 

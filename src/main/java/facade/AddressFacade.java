@@ -13,56 +13,50 @@ import java.util.List;
 @Stateless
 public class AddressFacade extends AbstractFacade implements AddressFacadeLocal {
 
-    public OperationResult<Address> saveOrUpdate(User user, Address address) {
+    public Address saveOrUpdate(User user, Address address) {
         if (user == null) {
-            return OperationResult.failure("Adres eklemek için giriş yapmalısınız.");
+            return null;
         }
         if (address == null) {
-            return OperationResult.failure("Adres bulunamadı.");
+            return null;
         }
 
         address.setUser(user);
         if (address.getId() == null) {
-            save(address);
-            return OperationResult.success("Adres eklendi.", address);
+            return save(address);
         }
 
         if (!belongsToUser(address.getId(), user.getId())) {
-            return OperationResult.failure("Adres bulunamadı.");
+            return null;
         }
 
-        update(address);
-        return OperationResult.success("Adres güncellendi.", address);
+        return update(address);
     }
 
-    public OperationResult<Void> deleteForUser(User user, Address address) {
+    public boolean deleteForUser(User user, Address address) {
         if (user == null || address == null || address.getId() == null || !belongsToUser(address.getId(), user.getId())) {
-            return OperationResult.failure("Adres bulunamadı.");
+            return false;
         }
 
         delete(address);
-        return OperationResult.success("Adres silindi.", null);
+        return true;
     }
 
-    public Address save(Address address) {
+    private Address save(Address address) {
         this.entityManager.persist(address);
         this.entityManager.flush();
         return address;
     }
 
-    public Address update(Address address) {
+    private Address update(Address address) {
         this.entityManager.merge(address);
         this.entityManager.flush();
         return address;
     }
 
-    public void delete(Address address) {
+    private void delete(Address address) {
         Address merged = this.entityManager.merge(address);
         this.entityManager.remove(merged);
-    }
-
-    public Address find(Long id) {
-        return this.entityManager.find(Address.class, id);
     }
 
     public List<Address> findByUserId(Long userId) {
@@ -75,7 +69,7 @@ public class AddressFacade extends AbstractFacade implements AddressFacadeLocal 
         return q.getResultList();
     }
 
-    public boolean belongsToUser(Long addressId, Long userId) {
+    private boolean belongsToUser(Long addressId, Long userId) {
         CriteriaBuilder cb = this.entityManager.getCriteriaBuilder();
         CriteriaQuery<Long> cq = cb.createQuery(Long.class);
         Root<Address> root = cq.from(Address.class);
@@ -84,17 +78,6 @@ public class AddressFacade extends AbstractFacade implements AddressFacadeLocal 
                 cb.equal(root.get("id"), addressId),
                 cb.equal(root.get("user").get("id"), userId)
         );
-        TypedQuery<Long> q = this.entityManager.createQuery(cq);
-        Long count = q.getSingleResult();
-        return count > 0;
-    }
-
-    public boolean hasUserAddress(Long userId) {
-        CriteriaBuilder cb = this.entityManager.getCriteriaBuilder();
-        CriteriaQuery<Long> cq = cb.createQuery(Long.class);
-        Root<Address> root = cq.from(Address.class);
-        cq.select(cb.count(root));
-        cq.where(cb.equal(root.get("user").get("id"), userId));
         TypedQuery<Long> q = this.entityManager.createQuery(cq);
         Long count = q.getSingleResult();
         return count > 0;

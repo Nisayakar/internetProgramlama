@@ -1,9 +1,11 @@
 package bean;
 
 import entity.Category;
-import facade.OperationResult;
 import facadeLocal.CategoryFacadeLocal;
+import jakarta.annotation.PostConstruct;
 import jakarta.ejb.EJB;
+import jakarta.faces.application.FacesMessage;
+import jakarta.faces.context.FacesContext;
 import jakarta.faces.view.ViewScoped;
 import jakarta.inject.Named;
 import java.io.Serializable;
@@ -20,44 +22,40 @@ public class CategoryBean implements Serializable {
 
     private Category newCategory;
     private List<Category> allCategories;
-    private String message;
+
+    @PostConstruct
+    public void init() {
+        allCategories = categoryFacade.findAllCategories();
+    }
 
     public void save() {
-        OperationResult<Void> result = categoryFacade.saveCategory(getNewCategory());
-        message = result.getMessage();
+        boolean newRecord = getNewCategory().getId() == null;
+        categoryFacade.saveCategory(getNewCategory());
+        addMessage(FacesMessage.SEVERITY_INFO, newRecord ? "Kategori eklendi." : "Kategori güncellendi.");
         newCategory = new Category();
+        allCategories = categoryFacade.findAllCategories();
     }
 
     public void edit(Category category) {
         this.newCategory = category;
-        message = null;
     }
 
     public void delete(Category category) {
-        OperationResult<Void> result = categoryFacade.deleteCategory(category);
-        message = result.getMessage();
-        if (!result.isSuccess()) {
+        if (!categoryFacade.deleteCategory(category)) {
+            addMessage(FacesMessage.SEVERITY_ERROR, "Bu kategoriye ait ürün olduğu için silinemez.");
             return;
         }
+        addMessage(FacesMessage.SEVERITY_INFO, "Kategori silindi.");
         newCategory = new Category();
+        allCategories = categoryFacade.findAllCategories();
     }
 
     public void clear() {
         newCategory = new Category();
-        message = null;
     }
 
     public List<Category> getAllCategories() {
-        allCategories = categoryFacade.findAllCategories();
         return allCategories;
-    }
-
-    public int getCategoryCount() {
-        return getAllCategories().size();
-    }
-
-    public void setAllCategories(List<Category> allCategories) {
-        this.allCategories = allCategories;
     }
 
     public Category getNewCategory() {
@@ -67,16 +65,8 @@ public class CategoryBean implements Serializable {
         return newCategory;
     }
 
-    public void setNewCategory(Category newCategory) {
-        this.newCategory = newCategory;
-    }
-
-    public String getMessage() {
-        return message;
-    }
-
-    public void setMessage(String message) {
-        this.message = message;
+    private void addMessage(FacesMessage.Severity severity, String text) {
+        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(severity, text, text));
     }
 }
 

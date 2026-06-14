@@ -12,9 +12,7 @@
                 <p class="mt-2 text-slate-500">Beğendiğiniz ürünleri bu listeden tekrar inceleyebilirsiniz.</p>
             </section>
 
-            <h:panelGroup rendered="#{not empty favoriteBean.message}" layout="block" styleClass="mb-6 rounded-lg border border-emerald-200 bg-emerald-50 px-5 py-4 text-sm font-semibold text-emerald-700">
-                #{favoriteBean.message}
-            </h:panelGroup>
+            <h:messages globalOnly="true" layout="list" styleClass="mb-6 rounded-lg border border-emerald-200 bg-emerald-50 px-5 py-4 text-sm font-semibold text-emerald-700"/>
 
             <h:panelGroup rendered="#{favoriteBean.noFavorites}" layout="block" styleClass="rounded-lg border border-sky-200 bg-sky-50 px-5 py-4 text-sm font-semibold text-sky-800">
                     Henüz favori ürününüz yok.

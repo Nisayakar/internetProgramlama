@@ -18,9 +18,7 @@
             </h:panelGroup>
 
             <section class="space-y-4">
-                <h:panelGroup rendered="#{not empty orderBean.message}" layout="block" styleClass="rounded-lg border border-emerald-200 bg-emerald-50 px-5 py-4 text-sm font-semibold text-emerald-700">
-                    #{orderBean.message}
-                </h:panelGroup>
+                <h:messages globalOnly="true" layout="list" styleClass="rounded-lg border border-emerald-200 bg-emerald-50 px-5 py-4 text-sm font-semibold text-emerald-700"/>
 
                 <ui:repeat value="#{orderBean.orderHistory}" var="order">
                     <article class="rounded-xl border border-slate-200 bg-white p-5 shadow-sm">

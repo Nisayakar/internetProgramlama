@@ -2,11 +2,13 @@ package bean;
 
 import entity.Cart;
 import entity.CartItem;
-import facade.OperationResult;
+import entity.Product;
 import facadeLocal.CartFacadeLocal;
 import jakarta.annotation.PostConstruct;
 import jakarta.ejb.EJB;
 import jakarta.enterprise.context.SessionScoped;
+import jakarta.faces.application.FacesMessage;
+import jakarta.faces.context.FacesContext;
 import jakarta.inject.Inject;
 import jakarta.inject.Named;
 import java.io.Serializable;
@@ -23,8 +25,9 @@ public class CartBean implements Serializable {
     @Inject
     private SessionBean sessionBean;
 
+    private static final String CART_LOADED_REQUEST_KEY = "cartBean.cartLoaded";
+
     private Cart cart;
-    private String message;
 
     @PostConstruct
     public void init() {
@@ -32,29 +35,39 @@ public class CartBean implements Serializable {
     }
 
     public void addToCart(Long productId) {
-        OperationResult<Cart> result = cartFacade.addProduct(sessionBean.getUser(), cart, productId);
-        if (result.getData() != null) {
-            cart = result.getData();
+        if (!sessionBean.isLoggedIn()) {
+            addMessage(FacesMessage.SEVERITY_ERROR, "Carte eklemek için giriş yapmalısınız.");
+            return;
         }
-        message = result.getMessage();
+
+        Product product = cartFacade.findProduct(productId);
+        if (product == null || product.getStockQuantity() == null || product.getStockQuantity() <= 0) {
+            addMessage(FacesMessage.SEVERITY_ERROR, "Bu ürün stokta yok.");
+            return;
+        }
+
+        Cart activeCart = cartFacade.findActiveCart(sessionBean.getUser(), cart);
+        for (CartItem item : activeCart.getItems()) {
+            if (item.getProduct().getId().equals(product.getId())
+                    && item.getQuantity() >= product.getStockQuantity()) {
+                cart = activeCart;
+                addMessage(FacesMessage.SEVERITY_WARN, "Stok sınırına ulaşıldı.");
+                return;
+            }
+        }
+
+        cart = cartFacade.addProduct(sessionBean.getUser(), cart, productId);
+        addMessage(FacesMessage.SEVERITY_INFO, "Ürün sepete eklendi.");
     }
 
     public void decreaseQuantity(CartItem item) {
-        OperationResult<Cart> result = cartFacade.decreaseQuantity(sessionBean.getUser(), cart, item);
-        cart = result.getData();
-        message = result.getMessage();
+        cart = cartFacade.decreaseQuantity(sessionBean.getUser(), cart, item);
+        addMessage(FacesMessage.SEVERITY_INFO, "Sepet güncellendi.");
     }
 
     public void removeFromCart(CartItem item) {
-        OperationResult<Cart> result = cartFacade.removeItem(sessionBean.getUser(), cart, item);
-        cart = result.getData();
-        message = result.getMessage();
-    }
-
-    public void clearCart() {
-        OperationResult<Cart> result = cartFacade.clearCart(sessionBean.getUser(), cart);
-        cart = result.getData();
-        message = null;
+        cart = cartFacade.removeItem(sessionBean.getUser(), cart, item);
+        addMessage(FacesMessage.SEVERITY_INFO, "Ürün sepetten çıkarıldı.");
     }
 
     public boolean isCartEmpty() {
@@ -69,21 +82,16 @@ public class CartBean implements Serializable {
         return getActiveCart();
     }
 
-    public void setCart(Cart cart) {
-        this.cart = cart;
-    }
-
-    public String getMessage() {
-        return message;
-    }
-
-    public void setMessage(String message) {
-        this.message = message;
-    }
-
     private Cart getActiveCart() {
-        cart = cartFacade.findActiveCart(sessionBean.getUser(), cart);
+        if (!FacesContext.getCurrentInstance().getExternalContext().getRequestMap().containsKey(CART_LOADED_REQUEST_KEY)) {
+            cart = cartFacade.findActiveCart(sessionBean.getUser(), cart);
+            FacesContext.getCurrentInstance().getExternalContext().getRequestMap().put(CART_LOADED_REQUEST_KEY, true);
+        }
         return cart;
+    }
+
+    private void addMessage(FacesMessage.Severity severity, String text) {
+        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(severity, text, text));
     }
 }
 

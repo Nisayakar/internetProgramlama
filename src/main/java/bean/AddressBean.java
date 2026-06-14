@@ -1,9 +1,10 @@
 package bean;
 
 import entity.Address;
-import facade.OperationResult;
 import facadeLocal.AddressFacadeLocal;
 import jakarta.ejb.EJB;
+import jakarta.faces.application.FacesMessage;
+import jakarta.faces.context.FacesContext;
 import jakarta.faces.view.ViewScoped;
 import jakarta.inject.Inject;
 import jakarta.inject.Named;
@@ -24,20 +25,21 @@ public class AddressBean implements Serializable {
 
     private Address address;
     private List<Address> myAddresses;
-    private String message;
 
     public void save() {
         if (!sessionBean.isLoggedIn()) {
-            message = "Adres eklemek için giriş yapmalısınız.";
+            addMessage(FacesMessage.SEVERITY_ERROR, "Adres eklemek için giriş yapmalısınız.");
             return;
         }
 
-        OperationResult<Address> result = addressFacade.saveOrUpdate(sessionBean.getUser(), getAddress());
-        message = result.getMessage();
-        if (!result.isSuccess()) {
+        boolean newRecord = getAddress().getId() == null;
+        Address saved = addressFacade.saveOrUpdate(sessionBean.getUser(), getAddress());
+        if (saved == null) {
+            addMessage(FacesMessage.SEVERITY_ERROR, "Adres bulunamadı.");
             return;
         }
 
+        addMessage(FacesMessage.SEVERITY_INFO, newRecord ? "Adres eklendi." : "Adres güncellendi.");
         clear();
         myAddresses = null;
     }
@@ -51,15 +53,15 @@ public class AddressBean implements Serializable {
         address.setFullAddress(a.getFullAddress());
         address.setPhone(a.getPhone());
         address.setUser(a.getUser());
-        message = null;
     }
 
     public void delete(Address a) {
-        OperationResult<Void> result = addressFacade.deleteForUser(sessionBean.getUser(), a);
-        message = result.getMessage();
-        if (result.isSuccess()) {
-            myAddresses = null;
+        if (!addressFacade.deleteForUser(sessionBean.getUser(), a)) {
+            addMessage(FacesMessage.SEVERITY_ERROR, "Adres bulunamadı.");
+            return;
         }
+        addMessage(FacesMessage.SEVERITY_INFO, "Adres silindi.");
+        myAddresses = null;
     }
 
     public void clear() {
@@ -71,10 +73,6 @@ public class AddressBean implements Serializable {
             address = new Address();
         }
         return address;
-    }
-
-    public void setAddress(Address address) {
-        this.address = address;
     }
 
     public List<Address> getMyAddresses() {
@@ -89,20 +87,12 @@ public class AddressBean implements Serializable {
         return myAddresses;
     }
 
-    public void setMyAddresses(List<Address> myAddresses) {
-        this.myAddresses = myAddresses;
-    }
-
     public boolean isNoAddresses() {
         return getMyAddresses() == null || getMyAddresses().isEmpty();
     }
 
-    public String getMessage() {
-        return message;
-    }
-
-    public void setMessage(String message) {
-        this.message = message;
+    private void addMessage(FacesMessage.Severity severity, String text) {
+        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(severity, text, text));
     }
 }
 

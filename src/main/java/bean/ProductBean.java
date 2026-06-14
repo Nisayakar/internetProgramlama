@@ -1,16 +1,16 @@
 package bean;
 
-import entity.Category;
 import entity.Product;
-import facade.OperationResult;
 import facadeLocal.ProductFacadeLocal;
 import jakarta.annotation.PostConstruct;
 import jakarta.ejb.EJB;
+import jakarta.faces.application.FacesMessage;
+import jakarta.faces.context.FacesContext;
 import jakarta.faces.view.ViewScoped;
 import jakarta.inject.Named;
+import jakarta.servlet.http.Part;
 import java.io.Serializable;
 import java.util.List;
-import jakarta.servlet.http.Part;
 
 @Named("productBean")
 @ViewScoped
@@ -23,37 +23,36 @@ public class ProductBean implements Serializable {
 
     private Product product;
     private List<Product> allProducts;
-    private List<Category> categories;
     private Long selectedCategoryId;
-    private Long selectedShowcaseCategoryId;
     private Long detailProductId;
     private Product detailProduct;
     private Part uploadedImage;
-    private String message;
 
     @PostConstruct
     public void init() {
         product = new Product();
         allProducts = productFacade.findAllProducts();
-        categories = productFacade.findAllCategories();
         selectedCategoryId = null;
     }
 
     public void save() {
-        OperationResult<Product> result = productFacade.saveProduct(product, selectedCategoryId, uploadedImage);
-        message = result.getMessage();
-        if (!result.isSuccess()) {
+        boolean newRecord = product.getId() == null;
+        Product saved = productFacade.saveProduct(product, selectedCategoryId, uploadedImage);
+        if (saved == null) {
+            addMessage(FacesMessage.SEVERITY_ERROR, "Görsel yüklenirken bir hata oluştu.");
             return;
         }
+        addMessage(FacesMessage.SEVERITY_INFO, newRecord ? "Ürün eklendi." : "Ürün güncellendi.");
         init();
     }
 
     public void delete(Product u) {
-        OperationResult<Void> result = productFacade.deleteProduct(u);
-        message = result.getMessage();
-        if (result.isSuccess()) {
-            init();
+        if (!productFacade.deleteProduct(u)) {
+            addMessage(FacesMessage.SEVERITY_ERROR, "Sepet, favori veya yorum kaydı olan ürün silinemez.");
+            return;
         }
+        addMessage(FacesMessage.SEVERITY_INFO, "Ürün silindi.");
+        init();
     }
 
     public void edit(Product u) {
@@ -67,15 +66,6 @@ public class ProductBean implements Serializable {
         product = new Product();
         selectedCategoryId = null;
         uploadedImage = null;
-        message = null;
-    }
-
-    public void selectCategory(Long categoryId) {
-        selectedShowcaseCategoryId = categoryId;
-    }
-
-    public void showAllCategories() {
-        selectedShowcaseCategoryId = null;
     }
 
     public void loadProductDetail() {
@@ -87,35 +77,8 @@ public class ProductBean implements Serializable {
         detailProduct = productFacade.find(detailProductId);
     }
 
-    public List<Product> getShowcaseProducts() {
-        if (selectedShowcaseCategoryId == null) {
-            return getAllProducts();
-        }
-        return productFacade.findByCategory(selectedShowcaseCategoryId);
-    }
-
-    public int getLowStockWarningCount() {
-        return productFacade.countLowStockProducts();
-    }
-
-    public double getTotalInventoryValue() {
-        return productFacade.calculateInventoryValue();
-    }
-
-    public int getProductCount() {
-        return getAllProducts().size();
-    }
-
-    public int getCategoryCount() {
-        return getCategories().size();
-    }
-
-    public boolean isNoCategories() {
-        return categories == null || categories.isEmpty();
-    }
-
     public boolean isNoProducts() {
-        return getAllProducts().isEmpty();
+        return allProducts.isEmpty();
     }
 
 
@@ -126,26 +89,8 @@ public class ProductBean implements Serializable {
         return product;
     }
 
-    public void setProduct(Product product) {
-        this.product = product;
-    }
-
     public List<Product> getAllProducts() {
-        allProducts = productFacade.findAllProducts();
         return allProducts;
-    }
-
-    public void setAllProducts(List<Product> allProducts) {
-        this.allProducts = allProducts;
-    }
-
-    public List<Category> getCategories() {
-        categories = productFacade.findAllCategories();
-        return categories;
-    }
-
-    public void setCategories(List<Category> categories) {
-        this.categories = categories;
     }
 
     public Long getSelectedCategoryId() {
@@ -154,14 +99,6 @@ public class ProductBean implements Serializable {
 
     public void setSelectedCategoryId(Long selectedCategoryId) {
         this.selectedCategoryId = selectedCategoryId;
-    }
-
-    public Long getSelectedShowcaseCategoryId() {
-        return selectedShowcaseCategoryId;
-    }
-
-    public void setSelectedShowcaseCategoryId(Long selectedShowcaseCategoryId) {
-        this.selectedShowcaseCategoryId = selectedShowcaseCategoryId;
     }
 
     public Long getDetailProductId() {
@@ -176,10 +113,6 @@ public class ProductBean implements Serializable {
         return detailProduct;
     }
 
-    public void setDetailProduct(Product detailProduct) {
-        this.detailProduct = detailProduct;
-    }
-
     public Part getUploadedImage() {
         return uploadedImage;
     }
@@ -188,12 +121,8 @@ public class ProductBean implements Serializable {
         this.uploadedImage = uploadedImage;
     }
 
-    public String getMessage() {
-        return message;
-    }
-
-    public void setMessage(String message) {
-        this.message = message;
+    private void addMessage(FacesMessage.Severity severity, String text) {
+        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(severity, text, text));
     }
 }
 
